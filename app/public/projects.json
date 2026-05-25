@@ -117,7 +117,7 @@
       {
         "name": "Teeketing",
         "type": "Web App",
-        "description": "Primary web platform for event creation, registration management.",
+        "description": "Primary web platform for event creation, registration and event management.",
         "image": "teeketing"
       },
       {
@@ -187,7 +187,7 @@
       "Dark mode"
     ],
     "implementation": "Built using VueJs, TypeScript and Tailwind. This was my first attempt at VueJs. I had to learn and understand the basics, the advantages, disadvantages, the trade-offs and got right into building. ",
-    "challenges": "One of the challenges was the absolutely new syntax, I was used to ReactJs. Deploying and hosting a VueJs application on cPanel was a new challenge for me, but I was able to figure it out. Eventually we migrated to Google Cloud Platform (GCP).",
+    "challenges": "One of the challenges was the absolutely new syntax, I was used to ReactJs. Deploying and hosting a VueJs application on cPanel was a new challenge for me as well, but I was able to figure it out and deployed it as an SPA, rather than a Nodejs service. Eventually we migrated to Google Cloud Platform (GCP).",
     "techStack": [
       {
         "name": "Frontend",
@@ -279,7 +279,7 @@
       "Responsive design"
     ],
     "implementation": "Built the website using NextJs, TypeScript, GSAP and Tailwind. Following the modular component architecture for reusability, scalability, and easier maintenance. Optimized GSAP to make the animations run smoothly, using useRef, ScrollTrigger and gsap's matchMedia for device specific optimizations. Integrated HubSpot Form API to handle contact form submissions.",
-    "challenges": "Optimizing the website for better SEO performance and also ensuring that the animations run smoothly without any lag.",
+    "challenges": "Optimizing the website for better SEO performance and also ensuring that the animations run smoothly without any lag. Configuring the scroll animations also posed a challenge. I spent (wasted, to be fair) significant amount of time trying to manually tune the scroll effect using intersection observer, rather than using GSAP's scrollTrigger which was the recommended method.",
     "techStack": [
       {
         "name": "Frontend",
@@ -326,7 +326,7 @@
       "Responsive design"
     ],
     "implementation": "Built using ReactJs, TypeScript and Tailwind. The client wanted a minimal and straightforward design with less animations. The website features a responsive design, smooth animations with GSAP and Framer Motion, and integrated HubSpot Form API for contact form submissions. Wordpress was also used for the News & Events section of the website. The News & Events section navigates to a wordpress site to view all the news and events. This is maintained by the client themselves.",
-    "challenges": "The client wanted to maintain the News & Events section themselves, which was initially challenging as updating the design with less interactions with me was a bit difficult.",
+    "challenges": "The client wanted to maintain the News & Events section themselves, which was initially challenging as updating the design with less interactions with me was a bit difficult. Eventually, the designer created a template which was agreed upon and enforced.",
     "techStack": [
       {
         "name": "Frontend",
@@ -513,7 +513,7 @@
     "role": "Frontend Developer",
     "liveUrl": "https://greenfield-portal-chi.vercel.app/",
     "githubUrl": "",
-    "overview": "Greenfield University Portal is a feature-rich academic management platform designed to deliver world-class online education to African learners. The platform serves three distinct user groups — students, staff, and administrators — each with their own tailored dashboard experience. It features a clean sidebar-driven navigation system, role-based access control, and immersive 3D visuals powered by Three.js. Smooth scroll behaviour is handled by Lenis, while GSAP drives polished page transitions and micro-animations throughout the interface.",
+    "overview": "Greenfield University Portal is a feature-rich academic management platform designed to deliver world-class online education to African learners. The platform serves three distinct user groups —  students, staff, and administrators — each with their own tailored dashboard experience. It features a clean sidebar-driven navigation system, role-based access control, and immersive 3D visuals powered by Three.js. Smooth scroll behaviour is handled by Lenis, while GSAP drives polished page transitions and micro-animations throughout the interface.",
     "features": [
       "Student, Staff & Admin role-based dashboards",
       "Course management & enrolment",
