@@ -1,0 +1,29 @@
+[
+  {
+    "id": "nuxt-scalable-2026",
+    "title": "Building Scalable Nuxt Applications in 2026",
+    "excerpt": "Discover best practices and architecture patterns for building high-performance Vue and Nuxt applications at scale.",
+    "category": "Frontend",
+    "date": "May 20, 2026",
+    "readTime": "5 min read",
+    "imageUrl": "https://picsum.photos/seed/nuxt/600/400"
+  },
+  {
+    "id": "postgres-database-design",
+    "title": "Mastering the Art of Database Design with PostgreSQL",
+    "excerpt": "A deep dive into indexing strategies, connection pooling, and optimizing complex query performance in production.",
+    "category": "Backend",
+    "date": "May 12, 2026",
+    "readTime": "8 min read",
+    "imageUrl": "https://picsum.photos/seed/postgres/600/400"
+  },
+  {
+    "id": "web-performance-lighthouse",
+    "title": "Optimizing Web Performance: Lighthouse to Core Web Vitals",
+    "excerpt": "Learn how to diagnose render-blocking resources, apply code splitting, and achieve a perfect 100 score on Lighthouse.",
+    "category": "Performance",
+    "date": "April 28, 2026",
+    "readTime": "6 min read",
+    "imageUrl": "https://picsum.photos/seed/perf/600/400"
+  }
+]

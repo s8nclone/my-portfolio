@@ -1,0 +1,551 @@
+{
+  "amalacloud": {
+    "title": "AmalaCloud",
+    "description": "Data and Finanacial management fintech platform.",
+    "image": "amala",
+    "technologies": [
+      "ReactJs",
+      "TypeScript",
+      "Tailwind CSS",
+      "Zustand",
+      "C#",
+      "Google Cloud Platform (GCP)"
+    ],
+    "category": [
+      "Web App",
+      "Mobile App"
+    ],
+    "duration": "N/A",
+    "teamSize": "5-7",
+    "role": "Frontend Developer",
+    "liveUrl": "https://amala.cloud",
+    "githubUrl": "",
+    "overview": "Amala is a fintech/data infrastructure platform focused on identity verification, verified address services, and secure data-access APIs for emerging markets, particularly Nigeria The platform is also developer-first, exposing REST APIs for integration into financial systems and onboarding flows. One of it's core features is the AmalaCompare which enables users to compare financial products to make informed decisions. I built a significant part of the frontend of the platform using ReactJs, TypeScript and Tailwind, optimizing it for performance, and offline-first capability to ensure seamless user experience even in areas with poor connectivity. I also contributed to the backend codebase using C#, .NET Core and PostgreSQL.",
+    "subProjects": [
+      {
+        "name": "AmalaCloud SP",
+        "type": "Service Provider Web Portal",
+        "description": "Administrative and management platform for service providers.",
+        "image": "amala"
+      },
+      {
+        "name": "AmalaCloud Individual",
+        "type": "Web & Mobile App",
+        "description": "Client-facing application for individuals, available on web and mobile.",
+        "image": "amala"
+      },
+      {
+        "name": "Amala Admin Platform",
+        "type": "Web App",
+        "description": "Admin platform for AmalaCloud.",
+        "image": "amala"
+      }
+    ],
+    "features": [
+      "Data & Access management",
+      "Financial tracking",
+      "Responsive design",
+      "Identity Verification",
+      "Address Verification",
+      "Product Comparison",
+      "Secure API Integrations",
+      "API key management",
+      "User authentication & authorizations"
+    ],
+    "implementation": "The whole platform functions in a microservices architecture. The frontend is built with ReactJs, TypeScript and Tailwind. Backend is built with C#, ASP.NET Core, Python and PostgreSQL. The frontend platforms are all hosted and managed on Google Cloud Platform (GCP). The backend services are all hosted and managed on Microsoft Azure using Docker and Kubernetes.",
+    "challenges": "The whole platfom was initially built as a monolithic application. It was time consuming to migrate to microservices. I had to refactor the whole frontend application to split it into microservices and also build new components to handle the new features we wanted to add. This was a challenging but rewarding experience.",
+    "techStack": [
+      {
+        "name": "Frontend",
+        "items": [
+          "ReactJs",
+          "TypeScript",
+          "Tailwind CSS",
+          "Tanstack Query",
+          "React Hook Form",
+          "Zod",
+          "Role Based Access Control (RBAC)"
+        ]
+      },
+      {
+        "name": "Backend",
+        "items": [
+          "C#",
+          "ASP.NET Core",
+          "PostgreSQL",
+          "Elasticsearch",
+          "Python"
+        ]
+      },
+      {
+        "name": "Mobile",
+        "items": [
+          "Flutter"
+        ]
+      },
+      {
+        "name": "Cloud Infrastructure",
+        "items": [
+          "Google Cloud Platform (GCP)",
+          "Microsoft Azure",
+          "Docker",
+          "Kubernetes"
+        ]
+      }
+    ],
+    "allowIframe": false
+  },
+  "teeketing": {
+    "title": "Teeketing",
+    "description": "Teeketing Event Services platform.",
+    "image": "teeketing",
+    "technologies": [
+      "NextJs",
+      "Tailwind CSS"
+    ],
+    "category": [
+      "Web App",
+      "Mobile App"
+    ],
+    "duration": "N/A",
+    "teamSize": "7",
+    "role": "Frontend Developer",
+    "liveUrl": "https://teeketing.com",
+    "githubUrl": "",
+    "overview": "Teeketing is an event management and ticketing platform designed for event organizers and attendees. The platform focuses on ticket sales, attendee management, fraud prevention, and event discovery. The platform has handled the Enugu Tech Fest (ETF) in 2025 & 2026 consecutive years, with over 50k+ registrations.",
+    "subProjects": [
+      {
+        "name": "Teeketing",
+        "type": "Web App",
+        "description": "Primary web platform for event creation, registration management.",
+        "image": "teeketing"
+      },
+      {
+        "name": "Teeketing Mobile",
+        "type": "Mobile App",
+        "description": "Mobile application for scanning and checking in attendees.",
+        "image": "teeketing"
+      }
+    ],
+    "features": [
+      "Event discovery",
+      "Event creation",
+      "Ticket sales",
+      "Event management",
+      "Ticketing system",
+      "Event analytics",
+      "Attendee management",
+      "Responsive design"
+    ],
+    "implementation": "Built with NextJs for SSR & SEO. Modular component structure for easy maintenance and scalability. It features a dedicated dashboard for event organizers and supports ticket validation using scanners on the web app or using the mobile app.",
+    "challenges": "N/A",
+    "techStack": [
+      {
+        "name": "Frontend",
+        "items": [
+          "NextJs",
+          "Tailwind CSS",
+          "TanStack Query",
+          "Material UI"
+        ]
+      },
+      {
+        "name": "Mobile",
+        "items": [
+          "React Native"
+        ]
+      },
+      {
+        "name": "Cloud Infrastructure",
+        "items": [
+          "Amazon Web Services (AWS)",
+          "Docker"
+        ]
+      }
+    ],
+    "allowIframe": true
+  },
+  "jkbofx": {
+    "title": "JKBO-FX",
+    "description": "A website for a forex academy",
+    "image": "jkbofx",
+    "technologies": [
+      "VueJs",
+      "TypeScript",
+      "Tailwind CSS"
+    ],
+    "category": "Website",
+    "duration": "6 weeks",
+    "teamSize": "1",
+    "role": "Frontend Developer",
+    "liveUrl": "https://jkbo-fx.onrender.com",
+    "githubUrl": "",
+    "overview": "A website for a forex/trading academy. CTAs redirects to external telegram channels",
+    "features": [
+      "Forex academy information",
+      "Responsive design",
+      "Dark mode"
+    ],
+    "implementation": "Built using VueJs, TypeScript and Tailwind. This was my first attempt at VueJs. I had to learn and understand the basics, the advantages, disadvantages, the trade-offs and got right into building. ",
+    "challenges": "One of the challenges was the absolutely new syntax, I was used to ReactJs. Deploying and hosting a VueJs application on cPanel was a new challenge for me, but I was able to figure it out. Eventually we migrated to Google Cloud Platform (GCP).",
+    "techStack": [
+      {
+        "name": "Frontend",
+        "items": [
+          "VueJs",
+          "TypeScript",
+          "Tailwind CSS"
+        ]
+      }
+    ],
+    "allowIframe": true
+  },
+  "transactease": {
+    "title": "Transactease",
+    "description": "Transactease - A digital financial solution main website with i18n.",
+    "image": "transactease",
+    "technologies": [
+      "ReactJs",
+      "TypeScript",
+      "Tailwind CSS",
+      "Mailchimp API",
+      "i18n"
+    ],
+    "category": "Website",
+    "duration": "4 weeks",
+    "teamSize": "2",
+    "role": "Fullstack Developer",
+    "liveUrl": "https://transactease.net",
+    "githubUrl": "",
+    "overview": "TransactEase is a fintech/payment infrastructure platform that provides secure payment processing solutions for both low-risk and high-risk businesses. The platform focuses on enabling merchants to accept multiple forms of payments globally while simplifying transaction management and compliance. The platform will support multi-currency transactions including cryptocurrencies, instant global transfers, digital wallets, smart currency conversion using latest and best rates and so on.",
+    "features": [
+      "Financial solutions",
+      "Internationalization (i18n)",
+      "Waitlist",
+      "Newsletter subscription",
+      "Responsive design"
+    ],
+    "implementation": "Built with React, Tailwind and i18n for multi-language support. Integrated Mailchimp API with a Nodejs powered backend to handle waitlist & newsletter subscription. I also setup loggers using Winston to monitor the backend. Both the frontend and backend are hosted on cPanel shared hosting using proxy reverse tunnels.",
+    "challenges": "One of the challenges was setting up a CI/CD pipeline for the frontend, as it was hosted on cPanel shared hosting. I was able to do that using GitHub Actions and deploying to cPanel via FTP. Another challenge was that the backend kept sleeping after some minutes of inactivity, which made registration fail frequently. I was able to solve that by setting up a cron job to ping the backend every 5 minutes, 15 minutes and 30 minutes so it doesn't sleep.",
+    "techStack": [
+      {
+        "name": "Frontend",
+        "items": [
+          "ReactJs",
+          "TypeScript",
+          "Tailwind CSS",
+          "i18n"
+        ]
+      },
+      {
+        "name": "Backend",
+        "items": [
+          "NodeJs",
+          "TypeScript",
+          "ExpressJs",
+          "Mailchimp API"
+        ]
+      },
+      {
+        "name": "Domain & Hosting",
+        "items": [
+          "Namecheap shared hosting",
+          "cPanel"
+        ]
+      }
+    ],
+    "allowIframe": true
+  },
+  "prioclen-technologies": {
+    "title": "Prioclen Technologies",
+    "description": "Main website for Prioclen Technologies.",
+    "image": "prioclenTech",
+    "technologies": [
+      "NextJs",
+      "TypeScript",
+      "GSAP",
+      "Tailwind CSS"
+    ],
+    "category": "Website",
+    "duration": "6 weeks",
+    "teamSize": "2",
+    "role": "Frontend Developer",
+    "liveUrl": "https://prioclen.tech",
+    "githubUrl": "",
+    "overview": "Prioclen Technologies is a software engineering/digital solutions company focused on web platforms, software systems, and technology services. This is their offical website.",
+    "features": [
+      "Company information",
+      "Smooth animations with GSAP",
+      "Responsive design"
+    ],
+    "implementation": "Built the website using NextJs, TypeScript, GSAP and Tailwind. Following the modular component architecture for reusability, scalability, and easier maintenance. Optimized GSAP to make the animations run smoothly, using useRef, ScrollTrigger and gsap's matchMedia for device specific optimizations. Integrated HubSpot Form API to handle contact form submissions.",
+    "challenges": "Optimizing the website for better SEO performance and also ensuring that the animations run smoothly without any lag.",
+    "techStack": [
+      {
+        "name": "Frontend",
+        "items": [
+          "NextJs",
+          "TypeScript",
+          "GSAP",
+          "Tailwind CSS",
+          "Framer Motion",
+          "HubSpot Form API"
+        ]
+      },
+      {
+        "name": "Cloud Infrastructure",
+        "items": [
+          "Google Cloud Platform (GCP)",
+          "CI/CD Pipeline",
+          "Google Cloud Run",
+          "Cloudbuild"
+        ]
+      }
+    ],
+    "allowIframe": true
+  },
+  "eagleview-security": {
+    "title": "Eagleview Security Concepts",
+    "description": "Eagleview security concepts official website.",
+    "image": "eagleview",
+    "technologies": [
+      "ReactJs",
+      "TypeScript",
+      "Tailwind CSS",
+      "Wordpress"
+    ],
+    "category": "Website",
+    "duration": "4 weeks",
+    "teamSize": "2",
+    "role": "Frontend Developer",
+    "liveUrl": "https://eagleview.com.ng",
+    "githubUrl": "",
+    "overview": "Eagleview security concepts website.",
+    "features": [
+      "Security concepts information",
+      "Responsive design"
+    ],
+    "implementation": "Built using ReactJs, TypeScript and Tailwind. The client wanted a minimal and straightforward design with less animations. The website features a responsive design, smooth animations with GSAP and Framer Motion, and integrated HubSpot Form API for contact form submissions. Wordpress was also used for the News & Events section of the website. The News & Events section navigates to a wordpress site to view all the news and events. This is maintained by the client themselves.",
+    "challenges": "The client wanted to maintain the News & Events section themselves, which was initially challenging as updating the design with less interactions with me was a bit difficult.",
+    "techStack": [
+      {
+        "name": "Frontend",
+        "items": [
+          "ReactJs",
+          "TypeScript",
+          "Tailwind CSS",
+          "GSAP",
+          "Framer Motion",
+          "HubSpot Form API",
+          "Wordpress"
+        ]
+      }
+    ],
+    "allowIframe": true
+  },
+  "jam4me": {
+    "title": "Jam4Me",
+    "description": "DJ Song Requests platform.",
+    "image": "jam4me",
+    "technologies": [
+      "ReactJs",
+      "TypeScript",
+      "TailwindCSS",
+      "Context API",
+      "PWA"
+    ],
+    "category": "Web App",
+    "overview": "Jam4Me - connect with DJs and request songs at Nigerian parties and events",
+    "duration": "N/A",
+    "teamSize": "3-4",
+    "role": "Frontend Developer",
+    "liveUrl": "https://jam4me.com",
+    "githubUrl": "",
+    "features": [
+      "User accounts",
+      "DJ Song Requests",
+      "Event connectivity",
+      "Real time streaming/playback",
+      "Payment Integration",
+      "Notifications",
+      "Progressive Web App (PWA)"
+    ],
+    "implementation": "Built with modern web technologies including ReactJs, TypeScript, TailwindCSS, Context API and PWA capabilities. The payment integration with Paystack and the music integration with Spotify API was done by another developer.",
+    "challenges": "The main challenge I faced was with the context API. It encouraged too many boilerplate and syncing with the browser storage facilites. However, I was able to overcome this challenge by carefully working through the context and by implementing the feature step by step and keeping close communication with the other developers.",
+    "techStack": [
+      {
+        "name": "Frontend",
+        "items": [
+          "ReactJs",
+          "TypeScript",
+          "TailwindCSS",
+          "Context API",
+          "PWA"
+        ]
+      }
+    ],
+    "allowIframe": true
+  },
+  "golux": {
+    "title": "GoLux",
+    "description": "Experience a new standard of comfort and elite chauffeur service with GoLux.",
+    "image": "golux",
+    "technologies": [
+      "ReactJs",
+      "NextJs",
+      "C#",
+      "Tailwind CSS",
+      "Flutter",
+      "Google Cloud Platform (GCP)"
+    ],
+    "category": [
+      "Website",
+      "Web App",
+      "Mobile App",
+      "API"
+    ],
+    "duration": "4 months",
+    "teamSize": "5",
+    "role": "Software Engineer",
+    "liveUrl": "https://golux.ng",
+    "githubUrl": "",
+    "overview": "Instant access to a private fleet of exotic vehicles. Experience elite chauffeur service with verified drivers and transparent pricing.",
+    "subProjects": [
+      {
+        "name": "GoLux Website",
+        "type": "Website",
+        "description": "Main landing page showcasing elite chauffeur services and private fleet.",
+        "image": "golux"
+      },
+      {
+        "name": "GoLux Admin Portal",
+        "type": "Web App",
+        "description": "Comprehensive administrative dashboard for managing drivers, riders, bookings and support tickets.",
+        "image": "goluxAdmin"
+      },
+      {
+        "name": "GoLux App",
+        "type": "Mobile App",
+        "description": "Mobile application for riders and drivers to seamlessly book and track rides.",
+        "image": "golux"
+      },
+      {
+        "name": "GoLux Backend",
+        "type": "API",
+        "description": "Robust backend infrastructure and APIs built with C#.",
+        "image": "golux"
+      }
+    ],
+    "features": [
+      "Luxury car service",
+      "Chauffeur service",
+      "Premium transportation",
+      "Real-time tracking",
+      "Payment Integration",
+      "Offline-first Admin dashboard"
+    ],
+    "implementation": "I ochestrated the high level system design and architecture of the platform. I also implemented the admin portal using NextJs, TypeScript and Tailwind. The admin portal features a comprehensive administrative dashboard with role based access control (RBAC) for managing drivers, riders, bookings, logs, support tickets and much more. The admin portal also features an offline-first architecture with proper caching strategies and is built with the modular component architecture for reusability, scalability, and easier maintenance. I contributed to the development of the mobile app as well. The mobile app is built with Flutter and features a comprehensive mobile application for riders to book rides with ease and drivers to receive and execute rides. I also contributed to the backend of the platform. The API is built with C# and features a comprehensive API for authentication, authorization, managing live trips, drivers, riders, bookings, logs, support tickets, and every other server activity. I also configured and deployed the entire platform on Google Cloud Platform including setting up the CI/CD pipelines.",
+    "challenges": "The most significant challenge was architecting a scalable, offline-first admin portal that could function reliably with intermittent connectivity. Implementing caching strategies, ensuring data consistency across sessions, and designing a modular architecture for easier maintenance required careful planning and iterative refinement.",
+    "techStack": [
+      {
+        "name": "Frontend",
+        "items": [
+          "ReactJs",
+          "NextJs",
+          "TypeScript",
+          "TailwindCSS",
+          "Tanstack Query",
+          "Zustand",
+          "Framer Motion",
+          "Role Based Access Control (RBAC)",
+          "Vitest",
+          "Cypress"
+        ]
+      },
+      {
+        "name": "Backend",
+        "items": [
+          "c#",
+          "ASP.NET Core",
+          "MongoDB",
+          "SignalR",
+          "JWT"
+        ]
+      },
+      {
+        "name": "Mobile App",
+        "items": [
+          "Flutter",
+          "Dart",
+          "Firebase",
+          "Google Maps API",
+          "Google OAuth",
+          "WebSockets"
+        ]
+      },
+      {
+        "name": "Cloud and DevOps",
+        "items": [
+          "Google Cloud Platform (GCP)",
+          "Docker",
+          "Cloudbuild"
+        ]
+      }
+    ]
+  },
+  "greenfield-university-portal": {
+    "title": "Greenfield University Portal",
+    "description": "World-class online education platform for African learners — student, staff & admin portal.",
+    "image": "greenfield",
+    "technologies": [
+      "Angular",
+      "SASS",
+      "GSAP",
+      "Three.js",
+      "Lenis"
+    ],
+    "category": [
+      "Web App",
+      "Personal"
+    ],
+    "duration": "N/A",
+    "teamSize": "1",
+    "role": "Frontend Developer",
+    "liveUrl": "https://greenfield-portal-chi.vercel.app/",
+    "githubUrl": "",
+    "overview": "Greenfield University Portal is a feature-rich academic management platform designed to deliver world-class online education to African learners. The platform serves three distinct user groups — students, staff, and administrators — each with their own tailored dashboard experience. It features a clean sidebar-driven navigation system, role-based access control, and immersive 3D visuals powered by Three.js. Smooth scroll behaviour is handled by Lenis, while GSAP drives polished page transitions and micro-animations throughout the interface.",
+    "features": [
+      "Student, Staff & Admin role-based dashboards",
+      "Course management & enrolment",
+      "Immersive 3D hero visuals (Three.js)",
+      "Smooth scroll experience (Lenis)",
+      "GSAP-powered page transitions & animations",
+      "Responsive sidebar navigation",
+      "User authentication & authorisation",
+      "Academic records & result management",
+      "Announcements & notification system"
+    ],
+    "implementation": "Built as a single-page application using Angular with a modular component architecture. SASS is used for the design system — CSS custom properties drive theming across student, staff, and admin colour accents. Three.js renders the interactive 3D canvas on the landing/hero section, providing an engaging first impression. Lenis replaces the native scroll driver for buttery-smooth momentum scrolling. GSAP handles scroll-triggered reveals, route transition animations, and staggered list entrances. The platform is deployed and hosted on Vercel.",
+    "challenges": "Integrating Three.js and GSAP within Angular's change-detection lifecycle required careful use of NgZone to prevent unnecessary re-renders triggered by animation frames. Coordinating Lenis's virtual scroll position with GSAP's ScrollTrigger needed a custom tick synchronisation loop to keep scroll-based animations accurate.",
+    "techStack": [
+      {
+        "name": "Frontend",
+        "items": [
+          "Angular",
+          "TypeScript",
+          "SASS",
+          "GSAP",
+          "Three.js",
+          "Lenis"
+        ]
+      },
+      {
+        "name": "Hosting",
+        "items": [
+          "Vercel"
+        ]
+      }
+    ],
+    "allowIframe": true
+  }
+}

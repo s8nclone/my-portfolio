@@ -1,0 +1,10 @@
+export { default as amala } from "./amala-ss.png";
+export { default as golux } from "./GoLux-ss.png";
+export { default as transactease } from "./transactease-ss.png";
+export { default as eagleview } from "./eagleview-ss.png";
+export { default as prioclenTech } from "./prioclen-tech-ss.png";
+export { default as teeketing } from "./teeketing-ss.png";
+export { default as jam4me } from "./jam4me-ss.png";
+export { default as jkbofx } from "./jkbofx-ss.png";
+export { default as goluxAdmin } from "./golux-admin-ss.png";
+export { default as greenfield } from "./greenfield-portal.png";

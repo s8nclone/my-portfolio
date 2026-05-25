@@ -1,0 +1,10 @@
+{
+  // https://v3.nuxtjs.org/concepts/typescript
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    // GSAP's own index.d.ts references plugin types with inconsistent casing
+    // (e.g. draggable.d.ts vs Draggable.d.ts). Disabling this check prevents
+    // spurious TS errors that are caused by GSAP's internal type files, not our code.
+    "forceConsistentCasingInFileNames": false
+  }
+}
