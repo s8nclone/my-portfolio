@@ -66,7 +66,7 @@
                         <!-- Subject Field -->
                         <div>
                             <label :for="subjectId" class="text-sm font-semibold text-primary dark:text-green-400 mb-2 flex items-center">
-                                <Mail class="w-4 h-4 mr-2 text-primary dark:text-green-400" />
+                                <NotebookPen class="w-4 h-4 mr-2 text-primary dark:text-green-400" />
                                 Subject
                             </label>
                             <input 
@@ -132,7 +132,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, useId } from "vue";
-import { User, Mail, Pen, MessageSquare, Send, CheckCircle2, Loader2 } from "lucide-vue-next";
+import { User, Mail, NotebookPen, MessageSquare, Send, CheckCircle2, Loader2 } from "lucide-vue-next";
 
 useHead({
     title: "Contact - Abdulmuiz Farayola",
