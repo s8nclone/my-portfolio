@@ -131,15 +131,21 @@
 
 			</div>
 
-			<div class="my-4 md:my-8">
-				<CurvedLoop
-					marqueeText="✦ SOFTWARE ENGINEER ✦ FRONTEND ENGINEER ✦ SOFTWARE DEVELOPER ✦ FULL STACK ENGINEER ✦ FRONTEND DEVELOPER ✦ "
-					:speed="8"
-					direction="left"
-					:interactive="true"
-					className="text-[30rem] md:text-[20rem] fill-green-200 dark:fill-green-400 "
-				/>
-			</div>
+			<ClientOnly>
+				<div class="my-4 md:my-8">
+					<CurvedLoop
+						marqueeText="✦ SOFTWARE ENGINEER ✦ FRONTEND ENGINEER ✦ SOFTWARE DEVELOPER ✦ FULL STACK ENGINEER ✦ FRONTEND DEVELOPER ✦ "
+						:speed="10"
+						direction="left"
+						:interactive="true"
+						className="text-[30rem] md:text-[20rem] fill-green-200 dark:fill-green-400 "
+					/>
+				</div>
+
+				<template #fallback>
+					<div class="h-[15vh] md:h-[30vh] bg-gray-800"></div>
+				</template>
+			</ClientOnly>
 
 			<!-- Digital Clock Section -->
 			<div class="">

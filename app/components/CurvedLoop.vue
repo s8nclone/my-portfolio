@@ -10,32 +10,33 @@
 		@pointerup="endDrag"
 		@pointerleave="endDrag"
 	>
-		<svg class="curved-loop-svg" viewBox="500 0 1440 400" >
+		<svg class="curved-loop-svg" viewBox="400 0 1400 400" preserveAspectRatio="xMidYMid meet" >
 			<text
 				ref="measureRef"
 				xml:space="preserve"
-				style="visibility: hidden; opacity: 0; pointer-events: none"
+				style="visibility: hidden; opacity: 0; pointer-events: none; position: absolute";
+				:class="className"
 			>
 				{{ text }}
 			</text>
 			<defs>
 				<path
 					ref="pathRef"
-					:id="pathId"
+					:id="pathIdComputed"
 					:d="pathD"
 					fill="none"
 					stroke="transparent"
 				/>
 			</defs>
 			<text
-				v-if="ready"
+				v-show="ready"
 				font-weight="bold"
 				xml:space="preserve"
 				:class="className"
 			>
 				<textPath
 					ref="textPathRef"
-					:href="`#${pathId}`"
+					:href="`#${pathIdComputed}`"
 					:startOffset="`${offset}px`"
 					xml:space="preserve"
 				>
@@ -47,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-	import { ref, computed, watch, onMounted, onUnmounted } from "vue";
+	import { ref, computed, watch, onMounted, onUnmounted, nextTick, useId } from "vue";
 
 	interface CurvedLoopProps {
 		marqueeText?: string;
@@ -89,10 +90,20 @@
 	const lastX = ref(0);
 	const currentDirection = ref<"left" | "right">(props.direction);
 	const velocity = ref(0);
+	const fontLoaded = ref(false);
+	const isMounted = ref(false);
 
 	// Generate unique ID
-	const uid = Math.random().toString(36).substring(2, 9);
-	const pathId = `curve-${uid}`;
+	let pathId = "curve-default";
+
+	onMounted(() => {
+		isMounted.value = true;
+		const uid = useId();
+		
+		pathId = `curve-${uid}`;
+	})
+
+	const pathIdComputed = computed(() => pathId);
 
 	// Computed path
 	const pathD = computed(
@@ -103,7 +114,7 @@
 	const totalText = computed(() => {
 		const textLength = spacing.value;
 		if (!textLength) return text.value;
-		const repeatCount = Math.ceil(1800 / textLength) + 2;
+		const repeatCount = Math.ceil(2700 / textLength) + 2;
 		return Array(repeatCount).fill(text.value).join("");
 	});
 
@@ -199,12 +210,27 @@
 	};
 
 	// Lifecycle
-	onMounted(() => {
+	onMounted(async () => {
+		if (document.fonts) {
+			try {
+				await document.fonts.ready;
+				fontLoaded.value = true;
+			} catch (e) {
+				console.warn("Font loading failed, proceeding anyway:", e);
+				fontLoaded.value = true;
+			}
+		} else {
+			fontLoaded.value = true;
+		}
+
+		// Wait for next tick to ensure DOM is ready
+		await nextTick();
 		measureText();
 		animate();
 	});
 
-	watch([() => text.value, () => props.className], () => {
+	watch([() => text.value, () => props.className], async () => {
+		await nextTick();
 		measureText();
 	});
 

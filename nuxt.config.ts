@@ -23,7 +23,9 @@ export default defineNuxtConfig({
 		"@nuxtjs/color-mode",
 		"@nuxtjs/google-fonts",
 		"motion-v/nuxt",
-		"@nuxt/test-utils/module"
+		"@nuxt/test-utils/module",
+		"@vercel/analytics",
+		"@vercel/speed-insights"
 	],
 	colorMode: {
 		classSuffix: "",
