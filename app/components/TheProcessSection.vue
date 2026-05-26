@@ -15,7 +15,7 @@
                 <!-- Center Line (Desktop) -->
                 <div class="border-2 absolute border-opacity-20 border-green-700 dark:border-green-600 h-full border-dashed left-1/2 -translate-x-1/2 hidden md:block z-0"></div>
                 <!-- Left Line (Mobile) -->
-                <div class="border-2 absolute border-opacity-20 border-green-700 dark:border-green-600 h-full border-dashed left-4 md:hidden z-0"></div>
+                <div class="border-2 absolute border-opacity-20 border-green-700 dark:border-green-600 h-[95%] border-dashed left-7 md:hidden z-0"></div>
 
                 <div 
                     v-for="(step, index) in steps" 
@@ -31,17 +31,17 @@
 
                     <!-- Timeline Marker Pin -->
                     <div 
-                        class="z-20 flex items-center order-1 bg-green-700 dark:bg-green-600 text-white w-10 h-10 rounded-full shadow-xl justify-center scale-90 md:scale-100 absolute left-4 md:left-1/2 md:-translate-x-1/2"
+                        class="z-20 flex items-center order-1 bg-green-700 dark:bg-green-600 text-white w-10 h-10 rounded-full shadow-xl justify-center scale-90 md:scale-100 absolute -left-7 md:left-1/2 md:-translate-x-1/2"
                     >
                         <component :is="step.icon" class="w-5 h-5" />
                     </div>
 
                     <!-- Card Column -->
                     <div 
-                        class="order-1 w-full md:w-5/12 pl-12 md:pl-0"
+                        class="order-1 w-full md:w-5/12 pl-8 md:pl-0"
                     >
                         <div 
-                            class="card group p-6 bg-white dark:bg-gray-800 border border-green-50 dark:border-green-950/20 hover:border-green-400 dark:hover:border-green-700 transition-all duration-300 hover:scale-[1.02] cursor-default"
+                            class="card group p-4 sm:p-6 bg-white dark:bg-gray-800 border border-green-50 dark:border-green-950/20 hover:border-green-400 dark:hover:border-green-700 transition-all duration-300 hover:scale-[1.02] cursor-default"
                         >
                             <span class="text-xs font-mono font-bold tracking-wider text-green-600 dark:text-green-400 uppercase">
                                 Phase {{ step.number }}
@@ -98,7 +98,7 @@ const steps = [
     {
         number: "02",
         title: "Architecture & Design",
-        description: "Modeling data structures, charting component diagrams, detailing API contracts, and planning out user journeys/UX flow outlines.",
+        description: "System Design, Modeling data structures, charting component diagrams, detailing API contracts, and planning out user journeys/UX flow outlines.",
         icon: Compass,
         checklist: [
             "DB schema design & relationships",

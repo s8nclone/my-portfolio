@@ -1,9 +1,11 @@
 <template>
     <div class="min-h-screen">
-        <AppHeader />
-        <NuxtPage />
-        <AppFooter />
-        <ScrollToTop />
+        <NuxtLayout>
+            <AppHeader />
+            <NuxtPage />
+            <AppFooter />
+            <ScrollToTop />
+        </NuxtLayout>
     </div>
 </template>
 

@@ -12,10 +12,37 @@
             </div>
         </section>
 
-        <!-- Form Section -->
-        <section class="py-16 px-4 relative z-10">
-            <div class="max-w-2xl mx-auto">
-                <div class="bg-white dark:bg-gray-800 shadow-xl border border-green-100 dark:border-gray-700 rounded-3xl p-8 md:p-12 animate-fade-in-up transition-all duration-300" style="animation-delay: 0.4s">
+
+        <section class="py-16 grid grid-cols-1 md:grid-cols-2 gap-10 mx-5 md:mx-10">
+            <div class="space-y-6">
+                <div
+                    v-for="contact in contactInfo"
+                    :key="contact.label"
+                    class="border-b border-green-500 p-2 space-y-3 font-medium"
+                >
+                    <p class="text-sm text-green-700 flex items-center">
+                        <component :is="contact.icon" class="w-4 h-4 mr-2"/>
+                        {{ contact.label }}
+                    </p>
+                    <p v-if="typeof contact.value === 'string'" class="text-base">{{ contact.value }}</p>
+
+                    <div v-else-if="Array.isArray(contact.value)" class="space-y-1 flex gap-2 items-center flex-wrap">
+                        <a
+                            v-for="(item, index) in contact.value"
+                            :key="index"
+                            class="text-xs btn-secondary py-2 uppercase font-semibold "
+                            :href="item.link"
+                        >
+                            {{ item.label }}
+                        </a>
+                    </div>
+                </div>
+                
+            </div>
+
+            <!-- Form Section -->
+            <aside class="">
+                <div class="bg-white dark:bg-gray-800 shadow-xl border border-green-100 dark:border-gray-700 rounded-3xl p-6 md:p-12 animate-fade-in-up transition-all duration-300" style="animation-delay: 0.4s">
                     
                     <div v-if="submitted" class="text-center py-8 animate-fade-in-up">
                         <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 mb-6">
@@ -41,7 +68,7 @@
                                 type="text"
                                 required
                                 placeholder="Your Name"
-                                class="w-full px-4 py-3 rounded-xl border border-green-200 dark:border-gray-600 bg-green-50/30 dark:bg-gray-700/50 text-primary dark:text-green-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200"
+                                class="w-full p-2 text-sm rounded-xl border border-green-200 dark:border-gray-600 bg-green-50/30 dark:bg-gray-700/50 text-primary dark:text-green-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200"
                                 :disabled="loading"
                             />
                         </div>
@@ -58,7 +85,7 @@
                                 type="email"
                                 required
                                 placeholder="name@example.com"
-                                class="w-full px-4 py-3 rounded-xl border border-green-200 dark:border-gray-600 bg-green-50/30 dark:bg-gray-700/50 text-primary dark:text-green-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200"
+                                class="w-full p-2 text-sm rounded-xl border border-green-200 dark:border-gray-600 bg-green-50/30 dark:bg-gray-700/50 text-primary dark:text-green-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200"
                                 :disabled="loading"
                             />
                         </div>
@@ -74,7 +101,7 @@
                                 v-model="form.subject"
                                 type="text"
                                 placeholder="Subject"
-                                class="w-full px-4 py-3 rounded-xl border border-green-200 dark:border-gray-600 bg-green-50/30 dark:bg-gray-700/50 text-primary dark:text-green-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200"
+                                class="w-full p-2 text-sm rounded-xl border border-green-200 dark:border-gray-600 bg-green-50/30 dark:bg-gray-700/50 text-primary dark:text-green-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200"
                                 :disabled="loading"
                             />
                         </div>
@@ -91,7 +118,7 @@
                                 required
                                 rows="5"
                                 placeholder="Tell me about your project or what's on your mind..."
-                                class="w-full px-4 py-3 rounded-xl border border-green-200 dark:border-gray-600 bg-green-50/30 dark:bg-gray-700/50 text-primary dark:text-green-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200"
+                                class="w-full p-2 text-sm rounded-xl border border-green-200 dark:border-gray-600 bg-green-50/30 dark:bg-gray-700/50 text-primary dark:text-green-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200"
                                 :disabled="loading"
                             ></textarea>
                         </div>
@@ -105,7 +132,7 @@
                         <div>
                             <button 
                                 type="submit" 
-                                class="w-full btn-primary flex items-center justify-center space-x-2 py-4 shadow-lg shadow-green-700/20 dark:shadow-green-900/30"
+                                class="w-full text-sm btn-primary flex items-center justify-center space-x-2 py-4 shadow-lg shadow-green-700/20 dark:shadow-green-900/30"
                                 :disabled="loading"
                             >
                                 <span v-if="loading" class="animate-spin mr-2">
@@ -121,7 +148,7 @@
                     </form>
 
                 </div>
-            </div>
+            </aside>
         </section>
 
         <section class="mb-16">
@@ -132,7 +159,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, useId } from "vue";
-import { User, Mail, NotebookPen, MessageSquare, Send, CheckCircle2, Loader2 } from "lucide-vue-next";
+import { User, Mail, MapIcon, PhoneCall, Smartphone, NotebookPen, MessageSquare, Send, CheckCircle2, Loader2 } from "lucide-vue-next";
 
 useHead({
     title: "Contact - Abdulmuiz Farayola",
@@ -143,6 +170,34 @@ useHead({
         },
     ],
 });
+
+const contactInfo = [
+    {
+        icon: Mail,
+        label: "Email",
+        value: "farayolajunior20@gmail.com"
+    },
+    {
+        icon: MapIcon,
+        label: "Address",
+        value: "Lagos, Nigeria",
+    },
+    {
+        icon: PhoneCall,
+        label: "Phone",
+        value: "+234 (0) 903 645 4103",
+    },
+    {
+        icon: Smartphone,
+        label: "Socials",
+        value: [
+            { label: "LinkedIn", link: "https://www.linkedin.com/in/abdulmuiz-dayo-farayola-/" },
+            { label: "GitHub", link: "https://github.com/s8nclone" },
+            { label: "Dev.to", link: "https://dev.to/technvernacular" },
+            { label: "Twitter(X)", link: "https://x.com/middleS8n" },
+        ]
+    }
+]
 
 const baseId = useId()
 
