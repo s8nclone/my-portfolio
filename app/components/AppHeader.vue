@@ -1,175 +1,151 @@
 <template>
+    <!-- Desktop / global fixed header -->
     <header
         :class="[
             'fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out',
-            isScrolled && !isNearFooter
-                ? 'py-2' 
-                : 'py-0'
+            isScrolled && !isNearFooter ? 'py-2' : 'py-0',
         ]"
     >
         <nav
             :class="[
-                'transition-all duration-500 ease-out backdrop-blur-md border border-green-700 dark:border-green-600',
+                'transition-all duration-500 ease-out backdrop-blur-md border border-green-700 dark:border-green-600 relative',
                 isScrolled && !isNearFooter
-                    ? 'mx-auto w-[90%] lg:w-[80%] rounded-2xl shadow-lg shadow-green-900/20 bg-primary dark:bg-transparent' 
-                    : 'w-full rounded-none border-t-0 border-l-0 border-r-0 bg-primary dark:bg-green-900'
+                    ? 'mx-auto w-[90%] lg:w-[80%] rounded-2xl shadow-lg shadow-green-900/20 bg-primary dark:bg-transparent'
+                    : 'w-full rounded-none border-t-0 border-l-0 border-r-0 bg-primary dark:bg-green-900',
             ]"
-            class="h px-6 lg:px-10"
+            class="px-6 lg:px-10"
         >
             <div class="flex items-center justify-between h-16">
+                <!-- Logo / Name -->
                 <NuxtLink
                     to="/"
-                    class="text-base md:text-xl font-bold text-green-100 hover:text-white transition-all duration-300"
+                    class="text-base md:text-xl font-bold text-green-100 hover:text-white transition-all duration-300 z-10"
                 >
                     Abdulmuiz Farayola
                 </NuxtLink>
 
+                <!-- Desktop nav links -->
                 <div class="hidden md:flex items-center space-x-8">
                     <NuxtLink
                         to="/"
                         class="text-green-200 hover:text-white transition-colors duration-300"
                         active-class="text-white"
-                    >
-                        Home
-                    </NuxtLink>
+                    >Home</NuxtLink>
+                    <NuxtLink
+                        to="/about"
+                        class="text-green-200 hover:text-white transition-colors duration-300"
+                        active-class="text-white"
+                    >About</NuxtLink>
                     <NuxtLink
                         to="/projects"
                         class="text-green-200 hover:text-white transition-colors duration-300"
                         active-class="text-white"
-                    >
-                        Projects
-                    </NuxtLink>
+                    >Projects</NuxtLink>
                     <NuxtLink
                         to="/contact"
                         class="text-green-200 hover:text-white transition-colors duration-300"
                         active-class="text-white"
-                    >
-                        Contact
-                    </NuxtLink>
+                    >Contact</NuxtLink>
 
-                    <!-- Dark Mode Toggle -->
+                    <!-- Desktop Dark Mode Toggle -->
                     <ClientOnly>
                         <button
                             @click="toggleDarkMode"
                             class="p-2 text-green-200 hover:text-white transition-colors duration-300 rounded-lg hover:bg-green-700/50"
-                            :title="
-                                isDark
-                                    ? 'Switch to light mode'
-                                    : 'Switch to dark mode'
-                            "
+                            :title="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
                         >
                             <Sun v-if="isDark" class="w-5 h-5" />
                             <Moon v-else class="w-5 h-5" />
                         </button>
-                        <template #fallback>
-                            <div class="p-2 w-9 h-9"></div>
-                        </template>
+                        <template #fallback><div class="p-2 w-9 h-9" /></template>
                     </ClientOnly>
                 </div>
 
-                <div class="md:hidden flex items-center space-x-2">
-                    <!-- Mobile Dark Mode Toggle -->
+                <!-- Mobile: only dark mode toggle (hamburger is in StaggeredMenu overlay) -->
+                <div class="md:hidden flex items-center">
                     <ClientOnly>
                         <button
                             @click="toggleDarkMode"
                             class="p-2 text-green-200 hover:text-white transition-colors duration-300"
+                            :title="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
                         >
                             <Sun v-if="isDark" class="w-5 h-5" />
                             <Moon v-else class="w-5 h-5" />
                         </button>
-                        <template #fallback>
-                            <div class="p-2 w-9 h-9"></div>
-                        </template>
+                        <template #fallback><div class="p-2 w-9 h-9" /></template>
                     </ClientOnly>
-
-                    <button
-                        @click="toggleMobileMenu"
-                        class="p-2 text-green-200 hover:text-white transition-colors duration-300"
-                    >
-                        <Menu v-if="!isMobileMenuOpen" class="w-6 h-6" />
-                        <X v-else class="w-6 h-6" />
-                    </button>
-                </div>
-            </div>
-
-            <!-- Mobile menu -->
-            <div
-                v-show="isMobileMenuOpen"
-                class="md:hidden py-4"
-            >
-                <div class="flex flex-col space-y-4 px-4">
-                    <NuxtLink
-                        to="/"
-                        @click="closeMobileMenu"
-                        class="text-green-200 hover:text-white transition-colors duration-300"
-                        active-class="text-white"
-                    >
-                        Home
-                    </NuxtLink>
-                    <NuxtLink
-                        to="/projects"
-                        @click="closeMobileMenu"
-                        class="text-green-200 hover:text-white transition-colors duration-300"
-                        active-class="text-white"
-                    >
-                        Projects
-                    </NuxtLink>
-                    <NuxtLink
-                        to="/contact"
-                        @click="closeMobileMenu"
-                        class="text-green-200 hover:text-white transition-colors duration-300"
-                        active-class="text-white"
-                    >
-                        Contact
-                    </NuxtLink>
                 </div>
             </div>
         </nav>
     </header>
+
+    <!-- Mobile Staggered Menu — full-screen fixed overlay, hidden on md+ -->
+    <ClientOnly>
+        <StaggeredMenu
+            class="md:hidden"
+            position="right"
+            :colors="['#064e3b', '#10b981']"
+            :items="navItems"
+            :social-items="socialItems"
+            :display-socials="true"
+            :display-item-numbering="true"
+            accent-color="#10b981"
+            menu-button-color="#ffffff"
+            open-menu-button-color="#ffffff"
+            :change-menu-color-on-open="true"
+            :close-on-click-away="true"
+        />
+    </ClientOnly>
 </template>
 
-<script setup>
-import { Menu, X, Sun, Moon } from "lucide-vue-next";
-import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+<script setup lang="ts">
+    import { Sun, Moon } from 'lucide-vue-next';
+    import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+    import StaggeredMenu from '~/components/StaggeredMenu.vue';
 
-const isMobileMenuOpen = ref(false);
-const isScrolled = ref(false);
-const isNearFooter = ref(false);
-const colorMode = useColorMode();
+    // ─── Nav data ────────────────────────────────────────────────────────────────
 
-const isDark = computed(() => colorMode.value === "dark");
+    const navItems = [
+        { label: 'Home',     ariaLabel: 'Go to home page',     link: '/'         },
+        { label: 'About',    ariaLabel: 'About me',             link: '/about'    },
+        { label: 'Projects', ariaLabel: 'View my projects',     link: '/projects' },
+        { label: 'Contact',  ariaLabel: 'Get in touch with me', link: '/contact'  },
+    ];
 
-const toggleDarkMode = () => {
-    colorMode.preference = colorMode.value === "dark" ? "light" : "dark";
-};
+    const socialItems = [
+        { label: 'LinkedIn', link: 'https://www.linkedin.com/in/abdulmuiz-dayo-farayola-/' },
+        { label: 'GitHub',   link: 'https://github.com/s8nclone'                          },
+        { label: 'Dev.to',   link: 'https://dev.to/technvernacular'                       },
+        { label: 'X',        link: 'https://x.com/middleS8n'                              },
+    ];
 
-const toggleMobileMenu = () => {
-    isMobileMenuOpen.value = !isMobileMenuOpen.value;
-};
+    // ─── Dark mode ────────────────────────────────────────────────────────────────
 
-const closeMobileMenu = () => {
-    isMobileMenuOpen.value = false;
-};
+    const colorMode = useColorMode();
+    const isDark    = computed(() => colorMode.value === 'dark');
+    const toggleDarkMode = () => {
+        colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark';
+    };
 
-const handleScroll = () => {
-    const scrollY = window.scrollY;
-    const windowHeight = window.innerHeight;
-    const documentHeight = document.documentElement.scrollHeight;
-    
-    // Check if scrolled past threshold
-    isScrolled.value = scrollY > 50;
-    
-    // Check if near footer (within 200px of bottom)
-    const distanceFromBottom = documentHeight - (scrollY + windowHeight);
-    isNearFooter.value = distanceFromBottom < 50;
-};
+    // ─── Scroll state ─────────────────────────────────────────────────────────────
 
-onMounted(() => {
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Check initial scroll position
-});
+    const isScrolled   = ref(false);
+    const isNearFooter = ref(false);
 
-onBeforeUnmount(() => {
-    window.removeEventListener("scroll", handleScroll);
-});
+    const handleScroll = () => {
+        const scrollY         = window.scrollY;
+        const windowHeight    = window.innerHeight;
+        const documentHeight  = document.documentElement.scrollHeight;
+        isScrolled.value      = scrollY > 50;
+        isNearFooter.value    = documentHeight - (scrollY + windowHeight) < 50;
+    };
+
+    onMounted(() => {
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
+    });
+
+    onBeforeUnmount(() => {
+        window.removeEventListener('scroll', handleScroll);
+    });
 </script>

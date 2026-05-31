@@ -1,8 +1,18 @@
 <template>
     <div class="min-h-screen bg-[#DAF1DE] dark:bg-[#051F20] transition-colors duration-300">
         <!-- Hero Section -->
-        <section class="section-padding hero-section relative rounded-b-[4rem] h-[55dvh] flex items-center">
-            <div class="container-width text-center">
+        <section class="section-padding hero-section relative rounded-b-[4rem] h-[55dvh] flex items-center overflow-hidden">
+            <!-- Animated Background DotField -->
+            <div class="absolute inset-0 z-0 opacity-80">
+                <DotField
+                    :dot-radius="2"
+                    :dot-spacing="15"
+                    :cursor-radius="400"
+                    :bulge-strength="75"
+                    glow-color="rgba(16, 185, 129, 0.4)"
+                />
+            </div>
+            <div class="container-width text-center relative z-10 w-full">
                 <h1 class="text-3xl md:text-5xl font-bold mb-6 animate-fade-in-up text-white">
                     Get In Touch
                 </h1>
@@ -158,94 +168,95 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, useId } from "vue";
-import { User, Mail, MapIcon, PhoneCall, Smartphone, NotebookPen, MessageSquare, Send, CheckCircle2, Loader2 } from "lucide-vue-next";
+    import { ref, reactive, useId } from "vue";
+    import { User, Mail, MapIcon, PhoneCall, Smartphone, NotebookPen, MessageSquare, Send, CheckCircle2, Loader2 } from "lucide-vue-next";
+    import DotField from "~/components/DotField.vue";
 
-useHead({
-    title: "Contact - Abdulmuiz Farayola",
-    meta: [
-        {
-            name: "description",
-            content: "Get in touch with Abdulmuiz Farayola. Submit a message for collaborations, freelance project queries, or general questions.",
-        },
-    ],
-});
-
-const contactInfo = [
-    {
-        icon: Mail,
-        label: "Email",
-        value: "farayolajunior20@gmail.com"
-    },
-    {
-        icon: MapIcon,
-        label: "Address",
-        value: "Lagos, Nigeria",
-    },
-    {
-        icon: PhoneCall,
-        label: "Phone",
-        value: "+234 (0) 903 645 4103",
-    },
-    {
-        icon: Smartphone,
-        label: "Socials",
-        value: [
-            { label: "LinkedIn", link: "https://www.linkedin.com/in/abdulmuiz-dayo-farayola-/" },
-            { label: "GitHub", link: "https://github.com/s8nclone" },
-            { label: "Dev.to", link: "https://dev.to/technvernacular" },
-            { label: "Twitter(X)", link: "https://x.com/middleS8n" },
-        ]
-    }
-]
-
-const baseId = useId()
-
-const form = reactive({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-});
-
-const nameId = `${baseId}-name`;
-const emailId = `${baseId}-email`;
-const subjectId = `${baseId}-subject`;
-const messageId = `{baseId}-message`;
-
-const loading = ref(false);
-const submitted = ref(false);
-const error = ref<string | null>(null);
-
-const handleSubmit = async () => {
-    loading.value = true;
-    error.value = null;
-
-    try {
-        await $fetch("/api/contact", {
-            method: "POST",
-            body: {
-                name: form.name,
-                email: form.email,
-                subject: form.subject,
-                message: form.message,
+    useHead({
+        title: "Contact - Abdulmuiz Farayola",
+        meta: [
+            {
+                name: "description",
+                content: "Get in touch with Abdulmuiz Farayola. Submit a message for collaborations, freelance project queries, or general questions.",
             },
-        });
-        submitted.value = true;
-    } catch (err: any) {
-        console.error("Contact form submission error:", err);
-        error.value = err.data?.message || "An error occurred while sending your message. Please try again later.";
-    } finally {
-        loading.value = false;
-    }
-};
+        ],
+    });
 
-const resetForm = () => {
-    form.name = "";
-    form.email = "";
-    form.subject = "";
-    form.message = "";
-    submitted.value = false;
-    error.value = null;
-};
+    const contactInfo = [
+        {
+            icon: Mail,
+            label: "Email",
+            value: "farayolajunior20@gmail.com"
+        },
+        {
+            icon: MapIcon,
+            label: "Address",
+            value: "Lagos, Nigeria",
+        },
+        {
+            icon: PhoneCall,
+            label: "Phone",
+            value: "+234 (0) 903 645 4103",
+        },
+        {
+            icon: Smartphone,
+            label: "Socials",
+            value: [
+                { label: "LinkedIn", link: "https://www.linkedin.com/in/abdulmuiz-dayo-farayola-/" },
+                { label: "GitHub", link: "https://github.com/s8nclone" },
+                { label: "Dev.to", link: "https://dev.to/technvernacular" },
+                { label: "Twitter(X)", link: "https://x.com/middleS8n" },
+            ]
+        }
+    ]
+
+    const baseId = useId()
+
+    const form = reactive({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+    });
+
+    const nameId = `${baseId}-name`;
+    const emailId = `${baseId}-email`;
+    const subjectId = `${baseId}-subject`;
+    const messageId = `{baseId}-message`;
+
+    const loading = ref(false);
+    const submitted = ref(false);
+    const error = ref<string | null>(null);
+
+    const handleSubmit = async () => {
+        loading.value = true;
+        error.value = null;
+
+        try {
+            await $fetch("/api/contact", {
+                method: "POST",
+                body: {
+                    name: form.name,
+                    email: form.email,
+                    subject: form.subject,
+                    message: form.message,
+                },
+            });
+            submitted.value = true;
+        } catch (err: any) {
+            console.error("Contact form submission error:", err);
+            error.value = err.data?.message || "An error occurred while sending your message. Please try again later.";
+        } finally {
+            loading.value = false;
+        }
+    };
+
+    const resetForm = () => {
+        form.name = "";
+        form.email = "";
+        form.subject = "";
+        form.message = "";
+        submitted.value = false;
+        error.value = null;
+    };
 </script>

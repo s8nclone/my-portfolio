@@ -2,10 +2,20 @@
     <div class="min-h-screen">
         <div v-if="project">
             <!-- Hero Section -->
-            <section class="section-padding hero-section pt-20 rounded-b-[4rem]">
-                <div class="container-width h-[70dvh] flex items-center">
+            <section class="section-padding hero-section pt-20 rounded-b-[4rem] relative overflow-hidden">
+                <!-- Animated Background DotField -->
+                <div class="absolute inset-0 z-0 opacity-80">
+                    <DotField
+                        :dot-radius="2"
+                        :dot-spacing="15"
+                        :cursor-radius="400"
+                        :bulge-strength="75"
+                        glow-color="rgba(16, 185, 129, 0.4)"
+                    />
+                </div>
+                <div class="container-width h-[70dvh] flex items-center relative z-10 w-full">
                     <div
-                        class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+                        class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full"
                     >
                         <div class="animate-fade-in-left">
                             <div class="mb-6">
@@ -273,6 +283,7 @@
     import { ArrowLeft, ExternalLink, Github } from "lucide-vue-next";
     import projectsData from "~/public/projects.json";
     import * as _images from '~/assets/images';
+    import DotField from "~/components/DotField.vue";
     const images = _images as Record<string, any>;
 
     const route = useRoute();

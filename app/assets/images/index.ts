@@ -8,3 +8,4 @@ export { default as jam4me } from "./jam4me-ss.png";
 export { default as jkbofx } from "./jkbofx-ss.png";
 export { default as goluxAdmin } from "./golux-admin-ss.png";
 export { default as greenfield } from "./greenfield-portal.png";
+export { default as portrait } from "./portrait.jpg";

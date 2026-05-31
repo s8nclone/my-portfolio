@@ -1,6 +1,16 @@
 <template>
     <section class="hero-section min-h-screen flex items-center relative px-4 md:px-10 overflow-x-hidden rounded-b-[4rem]">
-        <div class="w-full md:max-xl:max-w-7xl  mx-auto">
+        <!-- Animated Background DotField -->
+        <div class="absolute inset-0 z-0 opacity-80">
+            <DotField
+                :dot-radius="2"
+                :dot-spacing="15"
+                :cursor-radius="400"
+                :bulge-strength="75"
+                glow-color="rgba(16, 185, 129, 0.4)"
+            />
+        </div>
+        <div class="w-full md:max-xl:max-w-7xl  mx-auto relative z-10">
             <div class="gap-12 items-center mt-20 py-20">
                 <!-- Text Content -->
                 <div class="animate-fade-in-left text-left">
@@ -62,6 +72,7 @@
     import gsap from "gsap";
     import { ScrollTrigger } from "gsap/ScrollTrigger";
     import SplitText from "gsap/SplitText";
+    import DotField from "~/components/DotField.vue";
 
     // Register plugins (SSR-safe)
     if (typeof window !== "undefined") {

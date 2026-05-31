@@ -1,8 +1,18 @@
 <template>
     <div class="min-h-screen ">
         <!-- Header -->
-        <section class="section-padding hero-section relative rounded-b-[4rem] h-[70dvh] flex items-center">
-            <div class="container-width text-center">
+        <section class="section-padding hero-section relative rounded-b-[4rem] h-[70dvh] flex items-center overflow-hidden">
+            <!-- Animated Background DotField -->
+            <div class="absolute inset-0 z-0 opacity-80">
+                <DotField
+                    :dot-radius="2"
+                    :dot-spacing="15"
+                    :cursor-radius="400"
+                    :bulge-strength="75"
+                    glow-color="rgba(16, 185, 129, 0.4)"
+                />
+            </div>
+            <div class="container-width text-center relative z-10 w-full">
                 <h1
                     class="text-3xl md:text-5xl font-bold mb-6 animate-fade-in-up text-white"
                 >
@@ -31,10 +41,10 @@
                         :key="category"
                         @click="activeFilter = category"
                         :class="[
-                            'px-4 py-2 rounded-lg transition-all duration-300',
-                            activeFilter === category
-                                ? 'bg-green-700 dark:bg-green-600 text-white'
-                                : 'bg-white dark:bg-gray-700 text-green-700 dark:text-green-300 hover:bg-green-50 dark:hover:bg-gray-600 border border-green-200 dark:border-gray-600',
+                             'px-4 py-2 rounded-lg transition-all duration-300',
+                             activeFilter === category
+                                 ? 'bg-green-700 dark:bg-green-600 text-white'
+                                 : 'bg-white dark:bg-gray-700 text-green-700 dark:text-green-300 hover:bg-green-50 dark:hover:bg-gray-600 border border-green-200 dark:border-gray-600',
                         ]"
                     >
                         {{ category }}
@@ -78,6 +88,7 @@
 <script setup lang="ts">
     import gsap from 'gsap';
     import { ScrollTrigger } from "gsap/ScrollTrigger";
+    import DotField from "~/components/DotField.vue";
 
     // const projectsContainer = ref(null);
 

@@ -1,6 +1,16 @@
 <template>
-	<footer class="footer-bg relative rounded-t-[4rem]">
-		<div class="container-width section-padding">
+	<footer class="footer-bg relative rounded-t-[4rem] overflow-hidden">
+		<!-- Animated Background DotField -->
+		<div class="absolute inset-0 z-0 opacity-80">
+			<DotField
+				:dot-radius="2"
+				:dot-spacing="15"
+				:cursor-radius="400"
+				:bulge-strength="75"
+				glow-color="rgba(16, 185, 129, 0.4)"
+			/>
+		</div>
+		<div class="container-width section-padding relative z-10">
 			<div class="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_1fr] gap-8">
 				<div>
 					<h3 class="text-xl font-bold mb-4 text-green-100">
@@ -56,6 +66,12 @@
 							class="block text-green-200 hover:text-white transition-colors duration-300"
 						>
 							Home
+						</NuxtLink>
+						<NuxtLink
+							to="/about"
+							class="block text-green-200 hover:text-white transition-colors duration-300"
+						>
+							About
 						</NuxtLink>
 						<NuxtLink
 							to="/projects"
@@ -132,14 +148,14 @@
 			</div>
 
 			<ClientOnly>
-				<div class="my-4 md:my-8">
-					<CurvedLoop
-						marqueeText="✦ SOFTWARE ENGINEER ✦ FRONTEND ENGINEER ✦ SOFTWARE DEVELOPER ✦ FULL STACK ENGINEER ✦ FRONTEND DEVELOPER ✦ "
-						:speed="10"
-						direction="left"
-						:interactive="true"
-						className="text-[30rem] md:text-[20rem] fill-green-200 dark:fill-green-400 "
-					/>
+				<div class="my-4">
+					<WordLoop speed="normal" direction="left" :pauseOnHover="true">
+						<li class="text-[8rem] font-medium text-green-200 ">SOFTWARE ENGINEER ✦</li>
+						<li class="text-[8rem] font-medium text-green-200 ">FRONTEND ENGINEER ✦</li>
+						<li class="text-[8rem] font-medium text-green-200 ">SOFTWARE DEVELOPER ✦</li>
+						<li class="text-[8rem] font-medium text-green-200 ">FULL STACK ENGINEER ✦</li>
+						<li class="text-[8rem] font-medium text-green-200 ">FRONTEND DEVELOPER ✦</li>
+					</WordLoop>
 				</div>
 
 				<template #fallback>
@@ -169,6 +185,7 @@
 	import { Download, Mail, MapPin, CalendarCheck } from "lucide-vue-next";
 	import { githubLogo, X, dev, linkedIn } from "~/assets/icons";
     import DigitalClock from "./DigitalClock.vue";
-    import CurvedLoop from "./CurvedLoop.vue";
+	import WordLoop from "./WordLoop.vue";
+	import DotField from "./DotField.vue";
 
 </script>
