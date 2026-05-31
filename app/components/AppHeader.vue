@@ -62,7 +62,7 @@
                 </div>
 
                 <!-- Mobile: only dark mode toggle (hamburger is in StaggeredMenu overlay) -->
-                <div class="md:hidden flex items-center">
+                <div class="md:hidden flex items-center mr-16">
                     <ClientOnly>
                         <button
                             @click="toggleDarkMode"
