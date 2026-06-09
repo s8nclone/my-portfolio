@@ -168,7 +168,7 @@
 		perspective: 45em;
 		transform-style: preserve-3d;
 		width: 100%;
-		height: 5em;
+		height: 3em;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -216,7 +216,7 @@
 
 	:deep(.digits .group .digit) {
 		position: relative;
-		height: 16em;
+		height: 10em;
 		aspect-ratio: 1/2;
 		filter: drop-shadow(0px 0px 4px currentColor)
 			drop-shadow(0px 0px 10px currentColor);
@@ -359,7 +359,7 @@
 
 	:deep(.colon-group .colon span) {
 		display: flex;
-		height: 16em;
+		height: 10em;
 		flex-direction: column;
 		justify-content: space-evenly;
 		width: 4em;

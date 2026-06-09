@@ -42,6 +42,11 @@
                         active-class="text-white"
                     >Projects</NuxtLink>
                     <NuxtLink
+                        to="/blog"
+                        class="text-green-200 hover:text-white transition-colors duration-300"
+                        active-class="text-white"
+                    >Blog</NuxtLink>
+                    <NuxtLink
                         to="/contact"
                         class="text-green-200 hover:text-white transition-colors duration-300"
                         active-class="text-white"
@@ -109,6 +114,7 @@
         { label: 'Home',     ariaLabel: 'Go to home page',     link: '/'         },
         { label: 'About',    ariaLabel: 'About me',             link: '/about'    },
         { label: 'Projects', ariaLabel: 'View my projects',     link: '/projects' },
+        { label: 'Blog',     ariaLabel: 'Read my articles',     link: '/blog'     },
         { label: 'Contact',  ariaLabel: 'Get in touch with me', link: '/contact'  },
     ];
 

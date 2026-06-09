@@ -1,7 +1,7 @@
 <template>
     <section
         id="services"
-        class="section-padding relative mx-5 sm:mx-10 rounded-3xl bg-[#8EB69B] dark:bg-gray-900 shadow-xl overflow-hidden"
+        class="section-padding relative mx-5 sm:mx-10 rounded-3xl bg-[#8EB69B] dark:bg-gray-900 shadow-xl my-20 overflow-hidden"
     >
         <!-- Section Header -->
         <div class="container-width relative z-20">

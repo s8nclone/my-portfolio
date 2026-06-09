@@ -17,7 +17,7 @@
             {
                 name: "description",
                 content:
-                    "Experienced software developer specializing in modern web technologies. View my portfolio of React, Vue, Angulat and Node.js.",
+                    "Experienced software developer specializing in modern web technologies. View my portfolio of React, Vue, Angular and Node.js.",
             },
         ],
     });

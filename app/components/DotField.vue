@@ -1,5 +1,5 @@
 <template>
-	<div re  ="containerRef" class="dot-field-container" v-bind="$attrs">
+	<div ref="containerRef" class="dot-field-container" v-bind="$attrs">
 		<canvas
 			ref="canvasRef"
 			style="position: absolute; inset: 0; width: 100%; height: 100%;"

@@ -80,6 +80,13 @@
 							Projects
 						</NuxtLink>
 						<NuxtLink
+							to="/blog"
+							class="block text-green-200 hover:text-white transition-colors duration-300"
+							active-class="text-white"
+						>
+							Blog
+						</NuxtLink>
+						<NuxtLink
 							to="/contact"
 							class="block text-green-200 hover:text-white transition-colors duration-300"
 							active-class="text-white"
@@ -159,7 +166,7 @@
 				</div>
 
 				<template #fallback>
-					<div class="h-[15vh] md:h-[30vh] bg-gray-800"></div>
+					<div class="h-[15vh] md:h-[30vh] bg-green-200"></div>
 				</template>
 			</ClientOnly>
 
@@ -175,7 +182,7 @@
 					&copy; {{ new Date().getFullYear() }} Abdulmuiz Farayola.
 					All rights reserved.
 				</p>
-				<p>Powered by <span>Nuxt</span></p>
+				<p class="flex items-center justify-center">Powered by <span><a href="https://nuxt.com/" class="flex items-center gap-1 ml-1"><img :src="nuxt" alt-="" class="w-5 h-5" /> Nuxt</a></span></p>
 			</div>
 		</div>
 	</footer>
@@ -183,7 +190,7 @@
 
 <script setup lang="ts">
 	import { Download, Mail, MapPin, CalendarCheck } from "lucide-vue-next";
-	import { githubLogo, X, dev, linkedIn } from "~/assets/icons";
+	import { githubLogo, X, dev, linkedIn, nuxt } from "~/assets/icons";
     import DigitalClock from "./DigitalClock.vue";
 	import WordLoop from "./WordLoop.vue";
 	import DotField from "./DotField.vue";

@@ -51,7 +51,7 @@
     const projectsContainer = ref(null);
     let scrollTriggerInstance: globalThis.ScrollTrigger | null = null;
 
-    import projectsData from '~/public/projects.json';
+    import projectsData from '@@/public/projects.json';
 
     const featuredSlugs: Array<keyof typeof projectsData> = ["amalacloud", "teeketing", "transactease", "greenfield-university-portal"];
     const featuredProjects = featuredSlugs.map(slug => ({

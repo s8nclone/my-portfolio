@@ -295,7 +295,7 @@
 		{
 			title: "Backend & Database",
 			icon: Server,
-			skills: ["Node.js", "Express.js", "Fastify", "C# (.NET)", "ASP.NET", "REST APIs", "PostgreSQL", "MongoDB", "Prisma", "Supabase"]
+			skills: ["Node.js", "Express.js", "Fastify", "C# (.NET)", "ASP.NET", "REST APIs", "PostgreSQL", "MongoDB", "Prisma", "Supabase", "Firebase"]
 		},
 		{
 			title: "Cloud & DevOps",

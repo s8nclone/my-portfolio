@@ -94,7 +94,7 @@
 
     const activeFilter = ref("All");
 
-    import projectsData from '~/public/projects.json';
+    import projectsData from '@@/public/projects.json';
 
     const projects = Object.entries(projectsData).map(([slug, data]) => ({
         ...data,

@@ -281,7 +281,7 @@
 
 <script setup lang="ts">
     import { ArrowLeft, ExternalLink, Github } from "lucide-vue-next";
-    import projectsData from "~/public/projects.json";
+    import projectsData from "@@/public/projects.json";
     import * as _images from '~/assets/images';
     import DotField from "~/components/DotField.vue";
     const images = _images as Record<string, any>;
@@ -323,16 +323,6 @@
        }
 
     const project = computed(() => projectsData[slug as keyof typeof projectsData] as unknown as Project);
-
-    // Get related projects (excluding current project)
-    const relatedProjects = computed(() => {
-        const allProjects = Object.entries(projectsData).map(([s, data]) => ({
-            ...data,
-            slug: s
-        }));
-
-        return allProjects.filter((p) => p.slug !== slug).slice(0, 3);
-    });
 
     useHead(() => ({
         title: project.value

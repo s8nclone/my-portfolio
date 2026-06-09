@@ -121,16 +121,16 @@ export default defineEventHandler(async (event) => {
 			"\x1b[36m%s\x1b[0m",
 			"==================================================",
 		);
-		console.log(`👤 \x1b[1mName:\x1b[0m    ${trimmedName}`);
-		console.log(`✉️ \x1b[1mEmail:\x1b[0m   ${trimmedEmail}`);
-		console.log(`💬 \x1b[1mMessage:\x1b[0m\n${trimmedMessage}`);
+		console.log(`\x1b[1mName:\x1b[0m    ${trimmedName}`);
+		console.log(`\x1b[1mEmail:\x1b[0m   ${trimmedEmail}`);
+		console.log(`\x1b[1mMessage:\x1b[0m\n${trimmedMessage}`);
 		console.log(
 			"\x1b[36m%s\x1b[0m",
 			"==================================================",
 		);
 		console.log(
 			"\x1b[33m%s\x1b[0m",
-			"💡 Tip: To send real emails, define SMTP_HOST, SMTP_PORT,",
+			"Tip: To send real emails, define SMTP_HOST, SMTP_PORT,",
 		);
 		console.log(
 			"\x1b[33m%s\x1b[0m",

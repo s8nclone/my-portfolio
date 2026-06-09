@@ -23,7 +23,7 @@
         </section>
 
 
-        <section class="py-16 grid grid-cols-1 md:grid-cols-2 gap-10 mx-5 md:mx-10">
+        <section class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-10 mx-5 md:mx-10">
             <div class="space-y-6">
                 <div
                     v-for="contact in contactInfo"
@@ -161,7 +161,7 @@
             </aside>
         </section>
 
-        <section class="mb-16">
+        <section class="">
             <WhatIDeliverSection />
         </section>
     </div>
