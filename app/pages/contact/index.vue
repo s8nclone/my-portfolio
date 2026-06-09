@@ -42,6 +42,8 @@
                             :key="index"
                             class="text-xs btn-secondary py-2 uppercase font-semibold "
                             :href="item.link"
+                            target="_blank"
+                            rel="noreferrer noopener"
                         >
                             {{ item.label }}
                         </a>

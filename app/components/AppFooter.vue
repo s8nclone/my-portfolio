@@ -24,6 +24,7 @@
 						<a
 							href="https://github.com/s8nclone"
 							target="_blank"
+							rel="noreferrer noopener"
 							class="text-green-200 hover:scale-150 transition-all duration-300"
 							aria-label="github"
 						>
@@ -32,6 +33,7 @@
 						<a
 							href="https://www.linkedin.com/in/abdulmuiz-dayo-farayola-/"
 							target="_blank"
+							rel="noreferrer noopener"
 							class="text-green-200 hover:scale-150 transition-all duration-300"
 							aria-label="linkedIn"
 						>
@@ -40,6 +42,7 @@
 						<a
 							href="https://x.com/middleS8n"
 							target="_blank"
+							rel="noreferrer noopener"
 							class="text-green-200 hover:scale-150 transition-all duration-300"
 							aria-label="twitter/x"
 						>
@@ -48,6 +51,7 @@
 						<a
 							href="https://dev.to/technvernacular"
 							target="_blank"
+							rel="noreferrer noopener"
 							class="text-green-200 hover:scale-150 transition-all duration-300"
 							aria-label="devdotcom"
 						>
@@ -182,7 +186,20 @@
 					&copy; {{ new Date().getFullYear() }} Abdulmuiz Farayola.
 					All rights reserved.
 				</p>
-				<p class="flex items-center justify-center">Powered by <span><a href="https://nuxt.com/" class="flex items-center gap-1 ml-1"><img :src="nuxt" alt-="" class="w-5 h-5" /> Nuxt</a></span></p>
+				<p class="flex items-center justify-center">
+					Powered by 
+					<span>
+						<a
+							href="https://nuxt.com/"
+							target="_blank"
+							rel="noreferrer noopener"
+							class="flex items-center gap-1 ml-1"
+						>
+							<img :src="nuxt" alt-="" class="w-5 h-5" /> 
+							Nuxt
+						</a>
+					</span>
+				</p>
 			</div>
 		</div>
 	</footer>
