@@ -28,7 +28,7 @@
                 <!-- Loading Skeletons -->
                 <div v-if="loading" class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div
-                        v-for="n in 6"
+                        v-for="n in 3"
                         :key="n"
                         class="flex flex-col rounded-2xl bg-white dark:bg-gray-800 border border-green-100/50 dark:border-green-950/20 overflow-hidden shadow-sm animate-pulse"
                     >

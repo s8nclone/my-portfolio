@@ -57,8 +57,11 @@ export const useDevToArticles = (username: string) => {
 	const loading = ref(false);
 	const error = ref<string | null>(null);
 
-	const fetchArticles = async () => {
-		if (isCacheValid(CACHE_KEY_ALL)) {
+	const fetchArticles = async (force = false) => {
+		// In development or if force is true, bypass cache check
+		const skipCache = force || import.meta.dev;
+
+		if (!skipCache && isCacheValid(CACHE_KEY_ALL)) {
 			const cached = getFromCache(CACHE_KEY_ALL);
 			if (cached) {
 				articles.value = cached;
@@ -94,7 +97,7 @@ export const useDevToArticles = (username: string) => {
 		articles: readonly(articles),
 		loading: readonly(loading),
 		error: readonly(error),
-		refresh: fetchArticles,
+		refresh: () => fetchArticles(true),
 	};
 };
 
@@ -104,9 +107,11 @@ export const useRecentDevToArticles = (username: string, limit = 3) => {
 	const loading = ref(false);
 	const error = ref<string | null>(null);
 
-	const fetchRecentArticles = async () => {
+	const fetchRecentArticles = async (force = false) => {
 		const cacheKey = `${CACHE_KEY_LIMIT}_${limit}`;
-		if (isCacheValid(cacheKey)) {
+		const skipCache = force || import.meta.dev;
+
+		if (!skipCache && isCacheValid(cacheKey)) {
 			const cached = getFromCache(cacheKey);
 			if (cached) {
 				articles.value = cached;
@@ -144,6 +149,6 @@ export const useRecentDevToArticles = (username: string, limit = 3) => {
 		articles: readonly(articles),
 		loading: readonly(loading),
 		error: readonly(error),
-		refresh: fetchRecentArticles,
+		refresh: () => fetchRecentArticles(true),
 	};
 };

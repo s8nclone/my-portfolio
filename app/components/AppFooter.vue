@@ -170,7 +170,9 @@
 				</div>
 
 				<template #fallback>
-					<div class="h-[15vh] md:h-[30vh] bg-green-200"></div>
+					<div class="overflow-x-hidden">
+						<span class="text-[8rem] font-medium text-green-200 ">✦ SOFTWARE ENGINEER ✦</span>
+					</div>
 				</template>
 			</ClientOnly>
 

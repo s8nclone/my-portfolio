@@ -1,7 +1,7 @@
 <template>
     <NuxtLink
         :to="`/projects/${project.slug}`"
-        class="card group cursor-pointer transform hover:scale-105 block w-full h-[70dvh]"
+        class="card group cursor-pointer transform hover:scale-105 block w-full h-[50dvh] sm:h-[70dvh]"
     >
         <!-- Large screen layout: full width alternating design -->
         <div

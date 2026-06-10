@@ -64,14 +64,13 @@
             gsap.registerPlugin(ScrollTrigger);
 
             const projectsSection = document.getElementById("featured-projects");
-            // const projectsSection = document.getElementById("projects-section");
             const projectsContainerEl = projectsContainer.value;
 
             if (projectsSection && projectsContainerEl) {
                 scrollTriggerInstance = ScrollTrigger.create({
                     trigger: projectsSection,
                     start: "top 20%",
-                    end: () => `+=${window.innerHeight * 2}`, // Scroll distance for animation
+                    end: () => `+=${window.innerHeight * 2}`,
                     pin: true,
                     scrub: 1,
                     onUpdate: (self) => {
@@ -90,9 +89,9 @@
         }
     });
 
-        onUnmounted(() => {
-            if (scrollTriggerInstance) {
-                scrollTriggerInstance.kill();
-            }
-        });
-</script>
+    onUnmounted(() => {
+        if (scrollTriggerInstance) {
+            scrollTriggerInstance.kill();
+        }
+    });
+</script>

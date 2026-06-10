@@ -320,7 +320,7 @@
         challenges: string;
         techStack: TechStackCategory[];
         allowIframe?: boolean;
-       }
+    }
 
     const project = computed(() => projectsData[slug as keyof typeof projectsData] as unknown as Project);
 

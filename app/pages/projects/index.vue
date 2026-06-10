@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen ">
+    <div class="min-h-screen">
         <!-- Header -->
         <section class="section-padding hero-section relative rounded-b-[4rem] h-[70dvh] flex items-center overflow-hidden">
             <!-- Animated Background DotField -->
@@ -26,9 +26,8 @@
                     software development, from concept to deployment
                 </p>
             </div>
-
         </section>
-        
+
         <!-- Filter -->
         <section class="py-4 relative">
             <div class="container-width mt-12">
@@ -52,22 +51,27 @@
                 </div>
             </div>
         </section>
-        
-        <!-- Projects Grid -->
+
+        <!-- Projects Stack -->
         <section class="section-padding relative">
-            <div id="card" class="container-width ">
-                <!-- Large screen: full width alternating layout -->
-                <div class=" space-y-12">
-                    <div 
+            <div id="projects-stack" class="container-width">
+                <!-- Stacking cards -->
+                <div class="flex flex-col max-w-6xl mx-auto" v-if="filteredProjects.length > 0">
+                    <div
                         v-for="(project, index) in filteredProjects"
                         :key="project.slug"
-                        class="card-wrapper animate-fade-in-up"
-                        :style="{ animationDelay: `${index * 0.1}s` }"
+                        class="project-card-wrapper w-full origin-top"
+                        :style="{
+                            position: 'sticky',
+                            top: `calc(12vh + ${index * 36}px)`,
+                            zIndex: index + 1,
+                            marginBottom: index < filteredProjects.length - 1 ? '22vh' : '15vh'
+                        }"
                     >
                         <ProjectCard
                             :project="project"
                             :reverse="index % 2 === 1"
-                            class="card"
+                            class="project-card"
                         />
                     </div>
                 </div>
@@ -86,6 +90,126 @@
 </template>
 
 <script setup lang="ts">
+    import gsap from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+    import DotField from "~/components/DotField.vue";
+
+    const activeFilter = ref("All");
+
+    import projectsData from '@@/public/projects.json';
+
+    const projects = Object.entries(projectsData).map(([slug, data]) => ({
+        ...data,
+        slug
+    }));
+
+    const categories = computed(() => {
+        const cats = new Set<string>();
+        projects.forEach(p => {
+            if (Array.isArray(p.category)) {
+                p.category.forEach(c => cats.add(c));
+            } else if (p.category) {
+                cats.add(p.category);
+            }
+        });
+        return ["All", ...Array.from(cats)];
+    });
+
+    const filteredProjects = computed(() => {
+        if (activeFilter.value === "All") {
+            return projects;
+        }
+        return projects.filter((project) => {
+            if (Array.isArray(project.category)) {
+                return project.category.includes(activeFilter.value);
+            }
+            return project.category === activeFilter.value;
+        });
+    });
+
+    let ctx: ReturnType<typeof gsap.context> | null = null;
+
+    const killAnimations = () => {
+        if (ctx) {
+            ctx.revert();
+            ctx = null;
+        }
+    };
+
+    const initAnimations = () => {
+        if (!import.meta.client) return;
+        killAnimations();
+
+        ctx = gsap.context(() => {
+            const wrappers = gsap.utils.toArray<HTMLElement>(".project-card-wrapper");
+            const scaleStep = 0.025;
+            const minScale = 0.8;
+
+            wrappers.forEach((wrapper, j) => {
+                // For each card j starting from index 1, when it scrolls in,
+                // we scale down all previous cards i < j by one step.
+                if (j > 0) {
+                    const tl = gsap.timeline({
+                        scrollTrigger: {
+                            trigger: wrapper,
+                            start: "top 85%",
+                            end: () => `top calc(8vh + ${j * 36}px)`,
+                            scrub: true,
+                        }
+                    });
+
+                    for (let i = 0; i < j; i++) {
+                        const startScale = Math.max(minScale, 1 - (j - 1 - i) * scaleStep);
+                        const endScale = Math.max(minScale, 1 - (j - i) * scaleStep);
+                        const targetWrapper = wrappers[i];
+
+                        if (targetWrapper) {
+                            tl.fromTo(targetWrapper,
+                                { scale: startScale },
+                                { scale: endScale, ease: "none" },
+                                0
+                            );
+                        }
+                    }
+                }
+            });
+        });
+    };
+
+    onMounted(() => {
+        if (import.meta.client) {
+            gsap.registerPlugin(ScrollTrigger);
+            initAnimations();
+        }
+    });
+
+    watch(filteredProjects, async () => {
+        killAnimations();
+        await nextTick();
+        initAnimations();
+    });
+
+    onUnmounted(() => {
+        killAnimations();
+    });
+
+    useHead({
+        title: "Projects - Abdulmuiz Farayola",
+        meta: [
+            {
+                name: "description",
+                content:
+                    "Browse my portfolio of software development projects including web applications, mobile apps, and APIs projects.",
+            },
+        ],
+    });
+
+    defineExpose({
+        activeFilter
+    });
+</script>
+
+<!-- <script setup lang="ts">
     import gsap from 'gsap';
     import { ScrollTrigger } from "gsap/ScrollTrigger";
     import DotField from "~/components/DotField.vue";
@@ -216,4 +340,4 @@
     defineExpose({
         activeFilter
     });
-</script>
+</script> -->

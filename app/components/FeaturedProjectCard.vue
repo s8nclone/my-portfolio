@@ -1,7 +1,7 @@
 <template>
     <NuxtLink
         :to="`/projects/${project.slug}`"
-        class="group cursor-pointer transform block w-full h-[80dvh]"
+        class="group cursor-pointer transform block w-full h-[60dvh] lg:h-[75dvh]"
     >
         <!-- Large screen layout: full width alternating design -->
         <div
