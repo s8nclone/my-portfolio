@@ -60,6 +60,29 @@
                     <div
                         v-for="(project, index) in filteredProjects"
                         :key="project.slug"
+                        class="project-card-wrapper"
+                        :style="{
+                            position: 'sticky',
+                            top: `calc(12vh + ${index * 36}px)`,
+                            zIndex: index + 1,
+                            marginBottom: index < filteredProjects.length - 1 ? '22vh' : '15vh',
+                            transformOrigin: 'top center', // Explicit for clarity
+                            transform: 'translateZ(0) scale(1)', // GPU acceleration
+                            backfaceVisibility: 'hidden',
+                            perspective: '1000px',
+                        }"
+                    >
+                        <ProjectCard
+                            :project="project"
+                            :reverse="index % 2 === 1"
+                            class="project-card"
+                        />
+                    </div>
+                </div>
+                <!-- <div class="flex flex-col max-w-6xl mx-auto" v-if="filteredProjects.length > 0">
+                    <div
+                        v-for="(project, index) in filteredProjects"
+                        :key="project.slug"
                         class="project-card-wrapper w-full origin-top"
                         :style="{
                             position: 'sticky',
@@ -74,7 +97,7 @@
                             class="project-card"
                         />
                     </div>
-                </div>
+                </div> -->
 
                 <div
                     v-if="filteredProjects.length === 0"
@@ -128,66 +151,192 @@
     });
 
     let ctx: ReturnType<typeof gsap.context> | null = null;
+    let refreshScheduled = false;
 
     const killAnimations = () => {
         if (ctx) {
             ctx.revert();
             ctx = null;
         }
+        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
 
     const initAnimations = () => {
         if (!import.meta.client) return;
+        
         killAnimations();
-
+        
         ctx = gsap.context(() => {
             const wrappers = gsap.utils.toArray<HTMLElement>(".project-card-wrapper");
+            
+            if (wrappers.length === 0) return;
+            
             const scaleStep = 0.025;
             const minScale = 0.8;
-
-            wrappers.forEach((wrapper, j) => {
-                // For each card j starting from index 1, when it scrolls in,
-                // we scale down all previous cards i < j by one step.
-                if (j > 0) {
-                    const tl = gsap.timeline({
-                        scrollTrigger: {
-                            trigger: wrapper,
-                            start: "top 85%",
-                            end: () => `top calc(8vh + ${j * 36}px)`,
-                            scrub: true,
-                        }
-                    });
-
-                    for (let i = 0; i < j; i++) {
-                        const startScale = Math.max(minScale, 1 - (j - 1 - i) * scaleStep);
-                        const endScale = Math.max(minScale, 1 - (j - i) * scaleStep);
-                        const targetWrapper = wrappers[i];
-
-                        if (targetWrapper) {
-                            tl.fromTo(targetWrapper,
-                                { scale: startScale },
-                                { scale: endScale, ease: "none" },
-                                0
-                            );
-                        }
-                    }
+            
+            // Pre-calculate all scale values to avoid recalculation in timeline
+            const scaleMap = new Map<number, Array<{ start: number; end: number }>>();
+            
+            for (let j = 0; j < wrappers.length; j++) {
+                if (j === 0) continue;
+                
+                const scales: Array<{ start: number; end: number }> = [];
+                for (let i = 0; i < j; i++) {
+                    const startScale = Math.max(minScale, 1 - (j - 1 - i) * scaleStep);
+                    const endScale = Math.max(minScale, 1 - (j - i) * scaleStep);
+                    scales.push({ start: startScale, end: endScale });
                 }
+                scaleMap.set(j, scales);
+            }
+            
+            // Create animations more efficiently
+            wrappers.forEach((wrapper, j) => {
+                if (j === 0) return;
+                
+                const scales = scaleMap.get(j);
+                if (!scales) return;
+                
+                // Create a single timeline per card instead of updating multiple
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: wrapper,
+                        start: "top 85%",
+                        end: `top calc(8vh + ${j * 36}px)`,
+                        scrub: 1, // Changed from true for better performance
+                        markers: false,
+                    }
+                });
+                
+                // Add all animations at once
+                scales.forEach((scale, i) => {
+                    const targetWrapper = wrappers[i];
+                    if (targetWrapper) {
+                        tl.to(
+                            targetWrapper,
+                            // { scale: scale.start },
+                            { scale: scale.end, ease: "none" },
+                            0 // All start at the same time
+                        );
+                    }
+                });
             });
+            
+            // Refresh ScrollTrigger after all animations are created
+            ScrollTrigger.refresh();
         });
     };
+
+    // Debounce animation recreation
+    const debouncedInitAnimations = useDebounceFn(() => {
+        initAnimations();
+    }, 300);
+
+    // onMounted(() => {
+    //     if (import.meta.client) {
+    //         gsap.registerPlugin(ScrollTrigger);
+            
+    //         // Add will-change to cards for GPU acceleration
+    //         const wrappers = document.querySelectorAll(".project-card-wrapper");
+    //         wrappers.forEach(wrapper => {
+    //             (wrapper as HTMLElement).style.willChange = "transform";
+    //         });
+            
+    //         initAnimations();
+    //     }
+    // });
 
     onMounted(() => {
         if (import.meta.client) {
             gsap.registerPlugin(ScrollTrigger);
-            initAnimations();
+            
+            const wrappers = document.querySelectorAll(".project-card-wrapper");
+            wrappers.forEach(wrapper => {
+                (wrapper as HTMLElement).style.willChange = "transform";
+            });
+            
+            nextTick(() => {
+                setTimeout(() => {
+                    initAnimations();
+                }, 50); // Small delay for layout calculation
+            });
         }
     });
 
-    watch(filteredProjects, async () => {
+    watch(filteredProjects, () => {
+        debouncedInitAnimations();
+    }, { immediate: false });
+
+    onUnmounted(() => {
         killAnimations();
-        await nextTick();
-        initAnimations();
+        
+        // Clean up will-change
+        const wrappers = document.querySelectorAll(".project-card-wrapper");
+        wrappers.forEach(wrapper => {
+            (wrapper as HTMLElement).style.willChange = "auto";
+        });
     });
+
+    // let ctx: ReturnType<typeof gsap.context> | null = null;
+
+    // const killAnimations = () => {
+    //     if (ctx) {
+    //         ctx.revert();
+    //         ctx = null;
+    //     }
+    // };
+
+    // const initAnimations = () => {
+    //     if (!import.meta.client) return;
+    //     killAnimations();
+
+    //     ctx = gsap.context(() => {
+    //         const wrappers = gsap.utils.toArray<HTMLElement>(".project-card-wrapper");
+    //         const scaleStep = 0.025;
+    //         const minScale = 0.8;
+
+    //         wrappers.forEach((wrapper, j) => {
+    //             // For each card j starting from index 1, when it scrolls in,
+    //             // we scale down all previous cards i < j by one step.
+    //             if (j > 0) {
+    //                 const tl = gsap.timeline({
+    //                     scrollTrigger: {
+    //                         trigger: wrapper,
+    //                         start: "top 85%",
+    //                         end: () => `top calc(8vh + ${j * 36}px)`,
+    //                         scrub: true,
+    //                     }
+    //                 });
+
+    //                 for (let i = 0; i < j; i++) {
+    //                     const startScale = Math.max(minScale, 1 - (j - 1 - i) * scaleStep);
+    //                     const endScale = Math.max(minScale, 1 - (j - i) * scaleStep);
+    //                     const targetWrapper = wrappers[i];
+
+    //                     if (targetWrapper) {
+    //                         tl.fromTo(targetWrapper,
+    //                             { scale: startScale },
+    //                             { scale: endScale, ease: "none" },
+    //                             0
+    //                         );
+    //                     }
+    //                 }
+    //             }
+    //         });
+    //     });
+    // };
+
+    // onMounted(() => {
+    //     if (import.meta.client) {
+    //         gsap.registerPlugin(ScrollTrigger);
+    //         initAnimations();
+    //     }
+    // });
+
+    // watch(filteredProjects, async () => {
+    //     killAnimations();
+    //     await nextTick();
+    //     initAnimations();
+    // });
 
     onUnmounted(() => {
         killAnimations();

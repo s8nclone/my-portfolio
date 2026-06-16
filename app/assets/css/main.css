@@ -153,6 +153,19 @@
 	color:#efefef;
 }
 
+.project-card-wrapper {
+  /* GPU acceleration */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.project-card {
+  /* Prevent layout shift */
+  contain: layout style paint;
+}
+
 @media screen and (min-width: 768px) {
   .scrolling-text {
     overflow: hidden;

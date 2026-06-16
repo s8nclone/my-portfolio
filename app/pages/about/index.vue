@@ -43,10 +43,22 @@
 						Profile Summary
 					</h2>
 					<p class="text-green-900 dark:text-green-100 text-lg leading-relaxed mb-6">
-						I'm a frontend-focused Software Engineer with strong experience building scalable, high-performance web applications using React, Next.js, and TypeScript. I have a proven track record of improving application performance by up to 60% and reducing deployment cycles by 40% through modern architecture designs and performance optimizations.
+						I'm a Software Engineer who loves building products that are fast, scalable, and genuinely enjoyable to use. My primary focus is frontend engineering with React, Next.js, and TypeScript, but I also enjoy working across the full stack with .NET, Node.js, cloud technologies, and system design, with experience spanning frontend architecture, backend services, cloud infrastructure, and product development.
+					</p>
+					<p class="text-green-900 dark:text-green-100 text-lg leading-relaxed mb-6">
+						I enjoy turning ideas into products, whether that's shipping features for growing companies, optimizing performance, designing APIs, or building side projects from scratch. One of my favorite parts of engineering is finding simple solutions to complex problems and creating experiences that users don't have to think twice about.
+					</p>
+					<p class="text-green-900 dark:text-green-100 text-lg leading-relaxed mb-6">
+						Over the years, I've had the opportunity to work across fintech, SaaS, and event-tech products, helping teams turn ideas into reliable software that serves real users. Whether it's improving application performance, designing scalable systems, or crafting intuitive interfaces, I enjoy solving problems that sit at the intersection of technology, business, and user experience.
+					</p>
+					<p class="text-green-900 dark:text-green-100 text-lg leading-relaxed mb-6">
+						What excites me most about software engineering is the ability to create meaningful impact. For me, great software is more than clean code—it's about building solutions that make people's lives easier, help businesses grow, and deliver exceptional experiences
+					</p>
+					<p class="text-green-900 dark:text-green-100 text-lg leading-relaxed mb-6">
+						Outside of work, I'm usually exploring new technologies, tinkering with personal projects, reading about software architecture and AI, watching football, listening to music, or spending time with people I care about. I'm naturally curious, which means I'm almost always learning something new or diving down a rabbit hole about technology, design, business, or how great products are built.
 					</p>
 					<p class="text-green-900 dark:text-green-100 text-lg leading-relaxed">
-						Progressing from a Full-Stack Developer to a Software Engineer I, I regularly contribute to core system design, scalable frontend architecture, and cloud-based deployments. I've built and scaled platforms supporting 50,000+ users across fintech, PaaS, and event ecosystems.
+						I believe the best software comes from a balance of technical excellence, empathy, and continuous learning—and that's a mindset I try to bring into everything I build. At my core, I'm someone who loves building, learning, and contributing to meaningful products—one thoughtful solution at a time.
 					</p>
 				</div>
 			</div>
