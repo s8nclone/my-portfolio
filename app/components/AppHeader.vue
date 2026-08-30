@@ -28,34 +28,39 @@
 				<div class="hidden md:flex items-center space-x-8">
 					<NuxtLink
 						to="/"
-						class="text-green-200 hover:text-white transition-colors duration-300"
-						active-class="text-white"
-						>Home</NuxtLink
+						class="transition-colors duration-300"
+						:class="isActiveHome ? 'text-white' : 'text-green-200 hover:text-white'"
 					>
+						Home
+					</NuxtLink>
 					<NuxtLink
 						to="/about"
 						class="text-green-200 hover:text-white transition-colors duration-300"
 						active-class="text-white"
-						>About</NuxtLink
 					>
+						About
+					</NuxtLink>
 					<NuxtLink
 						to="/projects"
-						class="text-green-200 hover:text-white transition-colors duration-300"
-						active-class="text-white"
-						>Projects</NuxtLink
+						class="transition-colors duration-300"
+						:class="isActiveProject ? 'text-white' : 'text-green-200 hover:text-white'"
 					>
+						Projects
+					</NuxtLink>
 					<NuxtLink
 						to="/blog"
-						class="text-green-200 hover:text-white transition-colors duration-300"
-						active-class="text-white"
-						>Blog</NuxtLink
+						class="transition-colors duration-300"
+						:class="isActiveBlog ? 'text-white' : 'text-green-200 hover:text-white'"
 					>
+						Blog
+					</NuxtLink>
 					<NuxtLink
 						to="/contact"
 						class="text-green-200 hover:text-white transition-colors duration-300"
 						active-class="text-white"
-						>Contact</NuxtLink
 					>
+						Contact
+					</NuxtLink>
 
 					<!-- Desktop Dark Mode Toggle -->
 					<ClientOnly>
@@ -124,6 +129,10 @@
 	import { Sun, Moon } from "lucide-vue-next";
 	import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 	import StaggeredMenu from "~/components/StaggeredMenu.vue";
+    
+	const isActiveHome = useNavLink("/", true)
+    const isActiveBlog = useNavLink("/blog");
+	const isActiveProject = useNavLink("/projects");
 
 	// Nav data
 

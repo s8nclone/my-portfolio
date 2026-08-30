@@ -8,10 +8,44 @@
   html {
     scroll-behavior: smooth;
     overscroll-behavior: none;
+    scrollbar-gutter: stable;
+    scrollbar-width: none;
+    scrollbar-color: #16a34a transparent;
   }
   
   body {
     @apply bg-[#DAF1DE] dark:bg-[#051F20] text-primary dark:text-green-200 antialiased transition-colors duration-300;
+  }
+
+  ::-webkit-scrollbar {
+    width: 1px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #15803d;
+    border-radius: 2px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #16a34a;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html {
+      scrollbar-color: #235347 transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #235347;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #051F20;
+    }
   }
 }
 

@@ -1,11 +1,13 @@
-import type { DevToArticle } from "~/types";
+import type { DevToArticle, DevToArticleDetail, DevToComment } from "~/types";
 
 const CACHE_KEY_ALL = "devto_articles_all_cache";
 const CACHE_KEY_LIMIT = "devto_articles_limit_cache";
+const CACHE_KEY_ARTICLE_PREFIX = "devto_article_";
+const CACHE_KEY_COMMENTS_PREFIX = "devto_comments_";
 const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
 
-interface CacheData {
-	articles: DevToArticle[];
+interface CacheData<T = any> {
+	data: T;
 	timestamp: number;
 }
 
@@ -24,7 +26,7 @@ const isCacheValid = (key: string): boolean => {
 	}
 };
 
-const getFromCache = (key: string): DevToArticle[] | null => {
+const getFromCache = <T>(key: string): T | null => {
 	if (!import.meta.client) return null;
 
 	const cached = localStorage.getItem(key);
@@ -32,22 +34,29 @@ const getFromCache = (key: string): DevToArticle[] | null => {
 	if (!cached) return null;
 
 	try {
-		const { articles: cachedArticles } = JSON.parse(cached) as CacheData;
-		return cachedArticles;
+		const parsed = JSON.parse(cached) as CacheData<T>;
+		// Support both { data } and legacy { articles } structures
+		if ("data" in parsed) {
+			return parsed.data;
+		}
+		if ("articles" in (parsed as any)) {
+			return (parsed as any).articles as T;
+		}
+		return null;
 	} catch {
 		return null;
 	}
 };
 
-const saveToCache = (key: string, data: DevToArticle[]) => {
+const saveToCache = <T>(key: string, data: T) => {
 	if (!import.meta.client) return;
 
 	localStorage.setItem(
 		key,
 		JSON.stringify({
-			articles: data,
+			data,
 			timestamp: Date.now(),
-		} as CacheData),
+		} as CacheData<T>),
 	);
 };
 
@@ -62,7 +71,7 @@ export const useDevToArticles = (username: string) => {
 		const skipCache = force || import.meta.dev;
 
 		if (!skipCache && isCacheValid(CACHE_KEY_ALL)) {
-			const cached = getFromCache(CACHE_KEY_ALL);
+			const cached = getFromCache<DevToArticle[]>(CACHE_KEY_ALL);
 			if (cached) {
 				articles.value = cached;
 				return;
@@ -112,7 +121,7 @@ export const useRecentDevToArticles = (username: string, limit = 3) => {
 		const skipCache = force || import.meta.dev;
 
 		if (!skipCache && isCacheValid(cacheKey)) {
-			const cached = getFromCache(cacheKey);
+			const cached = getFromCache<DevToArticle[]>(cacheKey);
 			if (cached) {
 				articles.value = cached;
 				return;
@@ -152,3 +161,116 @@ export const useRecentDevToArticles = (username: string, limit = 3) => {
 		refresh: () => fetchRecentArticles(true),
 	};
 };
+
+// Fetch single article by slug
+export const useDevToArticle = (slug: string, username = "technvernacular") => {
+	const article = ref<DevToArticleDetail | null>(null);
+	const loading = ref(true);
+	const error = ref<string | null>(null);
+
+	const fetchArticle = async (force = false) => {
+		if (!slug) return;
+
+		const cacheKey = `${CACHE_KEY_ARTICLE_PREFIX}${slug}`;
+		const skipCache = force || import.meta.dev;
+
+		if (!skipCache && isCacheValid(cacheKey)) {
+			const cached = getFromCache<DevToArticleDetail>(cacheKey);
+			if (cached) {
+				article.value = cached;
+				loading.value = false;
+				return;
+			}
+		}
+
+		loading.value = true;
+		error.value = null;
+
+		try {
+			const data = await $fetch<DevToArticleDetail>(
+				`/api/articles/${slug}?username=${username}`
+			);
+
+			if (data) {
+				article.value = data;
+				saveToCache(cacheKey, data);
+			}
+		} catch (err: any) {
+			console.error(`Failed to fetch article "${slug}":`, err);
+			error.value = err?.statusCode === 404 ? "Article not found" : "Failed to load article from DEV.to";
+		} finally {
+			loading.value = false;
+		}
+	};
+
+	onMounted(() => {
+		fetchArticle();
+	});
+
+	return {
+		article: readonly(article),
+		loading: readonly(loading),
+		error: readonly(error),
+		refresh: () => fetchArticle(true),
+	};
+};
+
+// Fetch comments for an article by articleId
+export const useDevToComments = (articleId: MaybeRef<number | undefined | null>) => {
+	const comments = ref<DevToComment[]>([]);
+	const loading = ref(false);
+	const error = ref<string | null>(null);
+
+	const fetchComments = async (force = false) => {
+		const id = unref(articleId);
+		if (!id) return;
+
+		const cacheKey = `${CACHE_KEY_COMMENTS_PREFIX}${id}`;
+		const skipCache = force || import.meta.dev;
+
+		if (!skipCache && isCacheValid(cacheKey)) {
+			const cached = getFromCache<DevToComment[]>(cacheKey);
+			if (cached) {
+				comments.value = cached;
+				return;
+			}
+		}
+
+		loading.value = true;
+		error.value = null;
+
+		try {
+			const data = await $fetch<DevToComment[]>(
+				`/api/articles/${id}/comments`
+			);
+
+			if (data) {
+				comments.value = data;
+				saveToCache(cacheKey, data);
+			}
+		} catch (err) {
+			console.error(`Failed to fetch comments for article ${id}:`, err);
+			error.value = "Failed to load comments from DEV.to";
+		} finally {
+			loading.value = false;
+		}
+	};
+
+	watch(
+		() => unref(articleId),
+		(newId) => {
+			if (newId) {
+				fetchComments();
+			}
+		},
+		{ immediate: true },
+	);
+
+	return {
+		comments: readonly(comments),
+		loading: readonly(loading),
+		error: readonly(error),
+		refresh: () => fetchComments(true),
+	};
+};
+

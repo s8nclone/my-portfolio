@@ -82,8 +82,6 @@
                                 <div
                                     class="absolute inset-0 bg-green-900/20"
                                 ></div>
-                                <!-- <iframe src="https://amala.cloud/" class="h-[70dvh] w-full" title="portfolio website">
-                                </iframe> -->
                             </div>
                         </div>
                     </div>

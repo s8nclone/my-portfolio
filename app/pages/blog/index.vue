@@ -70,12 +70,10 @@
 
                 <!-- Articles Grid (Masonry effect using Tailwind columns for performance and seamless responsive packing) -->
                 <div v-else class="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8 [column-fill:_balance] mx-auto w-full">
-                    <a
+                    <NuxtLink
                         v-for="(article, index) in articles"
                         :key="article.id"
-                        :href="article.url"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        :to="`/blog/${article.slug}`"
                         class="break-inside-avoid flex flex-col rounded-2xl bg-white dark:bg-gray-800 border border-green-100 dark:border-green-950/20 overflow-hidden shadow-sm hover:shadow-xl hover:border-green-300 dark:hover:border-green-700 transition-all duration-300 hover:scale-[1.01] group no-underline mb-8"
                         :style="{ animationDelay: `${index * 0.05}s` }"
                     >
@@ -129,12 +127,12 @@
                             <!-- Read Link -->
                             <div class="mt-auto pt-4 border-t border-green-100/50 dark:border-green-950/20">
                                 <span class="inline-flex items-center text-xs font-semibold text-green-700 dark:text-green-400 group-hover:text-primary dark:group-hover:text-green-300 transition-colors duration-300">
-                                    Read on DEV.to
+                                    Read Article
                                     <ArrowRight class="w-3.5 h-3.5 ml-1.5 transform group-hover:translate-x-1 transition-transform duration-300" />
                                 </span>
                             </div>
                         </div>
-                    </a>
+                    </NuxtLink>
                 </div>
             </div>
         </section>
