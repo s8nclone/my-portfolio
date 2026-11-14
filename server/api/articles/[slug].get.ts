@@ -12,8 +12,9 @@ export default defineEventHandler(async (event) => {
 
     try {
         const article = await $fetch(
-            `https://dev.to/api/articles/${username}/${slug}`
+            `https://dev.to/api/articles/${encodeURIComponent(username)}/${encodeURIComponent(slug)}`
         );
+        setHeader(event, "Cache-Control", "public, max-age=300, s-maxage=600, stale-while-revalidate=3600");
         return article;
     } catch (error: any) {
         const statusCode = error?.statusCode || error?.response?.status || 500;

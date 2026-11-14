@@ -229,10 +229,8 @@ const updatePhysics = () => {
     posY.value += (targetY.value - posY.value) * 0.25;
     rotX.value += (targetRotX.value - rotX.value) * 0.25;
     rotY.value += (targetRotY.value - rotY.value) * 0.25;
+    updatePlaceholderPos();
   }
-
-  // Continually track position to stay aligned during scrolls/resizes
-  updatePlaceholderPos();
 
   animationFrame = requestAnimationFrame(updatePhysics);
 };

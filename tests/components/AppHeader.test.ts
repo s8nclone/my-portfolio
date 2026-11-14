@@ -22,23 +22,18 @@ describe("AppHeader", () => {
 	it("toggles mobile menu", async () => {
 		const wrapper = await mountSuspended(AppHeader);
 
-		const mobileMenu = wrapper.find(".md\\:hidden.py-4");
-		expect(mobileMenu.attributes("style") || "").toContain("display: none");
-
-		// Find the mobile menu toggle button. It's the button containing the Menu/X icon
-		const buttons = wrapper.findAll("button");
-		const toggleBtn = buttons[buttons.length - 1];
+		const toggleBtn = wrapper.find("button.sm-toggle");
+		expect(toggleBtn.exists()).toBe(true);
+		expect(toggleBtn.attributes("aria-expanded")).toBe("false");
 
 		await toggleBtn.trigger("click");
 		await wrapper.vm.$nextTick();
 
-		expect(mobileMenu.attributes("style") || "").not.toContain(
-			"display: none",
-		);
+		expect(toggleBtn.attributes("aria-expanded")).toBe("true");
 
 		await toggleBtn.trigger("click");
 		await wrapper.vm.$nextTick();
 
-		expect(mobileMenu.attributes("style") || "").toContain("display: none");
+		expect(toggleBtn.attributes("aria-expanded")).toBe("false");
 	});
 });

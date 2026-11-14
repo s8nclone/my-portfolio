@@ -85,6 +85,8 @@
 	let engagement = 0;
 	let speedInterval: any = null;
 	let resizeTimer: any = null;
+	let visibilityObserver: IntersectionObserver | null = null;
+	let isVisible = true;
 
 	const dpr = typeof window !== "undefined" ? Math.min(window.devicePixelRatio || 1, 2) : 1;
 	const TWO_PI = Math.PI * 2;
@@ -251,20 +253,60 @@
 
 		ctx.fill();
 
-		rafId = requestAnimationFrame(tick);
+		if (isVisible) {
+			rafId = requestAnimationFrame(tick);
+		} else {
+			rafId = null;
+		}
+	};
+
+	const startLoop = () => {
+		if (!rafId) {
+			rafId = requestAnimationFrame(tick);
+		}
+		if (!speedInterval) {
+			speedInterval = setInterval(updateMouseSpeed, 20);
+		}
+	};
+
+	const stopLoop = () => {
+		if (rafId) {
+			cancelAnimationFrame(rafId);
+			rafId = null;
+		}
+		if (speedInterval) {
+			clearInterval(speedInterval);
+			speedInterval = null;
+		}
 	};
 
 	onMounted(() => {
 		doResize();
 		window.addEventListener("resize", resize);
 		window.addEventListener("mousemove", onMouseMove, { passive: true });
-		speedInterval = setInterval(updateMouseSpeed, 20);
-		rafId = requestAnimationFrame(tick);
+		startLoop();
+
+		if (typeof window !== "undefined" && "IntersectionObserver" in window && containerRef.value) {
+			visibilityObserver = new IntersectionObserver(
+				(entries) => {
+					const entry = entries[0];
+					if (!entry) return;
+					isVisible = entry.isIntersecting;
+					if (isVisible) {
+						startLoop();
+					} else {
+						stopLoop();
+					}
+				},
+				{ threshold: 0 }
+			);
+			visibilityObserver.observe(containerRef.value);
+		}
 	});
 
 	onUnmounted(() => {
-		if (rafId) cancelAnimationFrame(rafId);
-		clearInterval(speedInterval);
+		stopLoop();
+		visibilityObserver?.disconnect();
 		clearTimeout(resizeTimer);
 		window.removeEventListener("resize", resize);
 		window.removeEventListener("mousemove", onMouseMove);

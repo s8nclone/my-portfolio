@@ -33,7 +33,7 @@
                     <div class="group relative h-64 rounded-2xl overflow-hidden cursor-grab active:cursor-grabbing select-none shadow-sm border border-green-200 bg-white dark:bg-gray-900">
 
                         <!-- Front face -->
-                        <div class="absolute inset-0 flex flex-col items-center justify-center gap-5 p-6 transition-opacity duration-300 group-hover:opacity-0">
+                        <div class="absolute inset-0 flex flex-col items-center justify-center gap-5 p-6 transition-opacity duration-300 group-hover:opacity-0 group-focus-within:opacity-0">
                             <div class="w-14 h-14 flex items-center justify-center rounded-2xl bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-400">
                                 <component :is="service.icon" class="w-7 h-7" />
                             </div>
@@ -43,7 +43,7 @@
                         </div>
 
                         <!-- Hover reveal overlay: slides up from the bottom -->
-                        <div class="absolute inset-0 flex flex-col justify-between p-6 bg-gradient-to-br from-green-700 to-[#235347] dark:from-green-800 dark:to-green-950 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                        <div class="absolute inset-0 flex flex-col justify-between p-6 bg-gradient-to-br from-green-700 to-[#235347] dark:from-green-800 dark:to-green-950 translate-y-full group-hover:translate-y-0 group-focus-within:translate-y-0 transition-transform duration-300 ease-out">
                             <!-- Faint icon watermark -->
                             <div class="absolute top-4 right-4 opacity-10 text-white">
                                 <component :is="service.icon" class="w-16 h-16" />
@@ -82,7 +82,9 @@ import { gsap } from "gsap";
 import { Draggable } from "gsap/Draggable";
 import { InertiaPlugin } from "gsap/InertiaPlugin";
 
-gsap.registerPlugin(Draggable, InertiaPlugin);
+if (typeof window !== "undefined") {
+    gsap.registerPlugin(Draggable, InertiaPlugin);
+}
 
 // Data
 const services = [
@@ -130,6 +132,7 @@ const trackRef = ref<HTMLElement | null>(null);
 
 let loop: ReturnType<typeof horizontalLoop> | null = null;
 let cleanupFn: (() => void) | null = null;
+const itemCleanups: Array<() => void> = [];
 
 onMounted(() => {
     if (!trackRef.value) return;
@@ -143,13 +146,22 @@ onMounted(() => {
         draggable: true,
     });
 
+    const handleEnter = () => loop?.pause();
+    const handleLeave = () => loop?.play();
+
     items.forEach((item) => {
-        item.addEventListener("mouseenter", () => loop?.pause());
-        item.addEventListener("mouseleave", () => loop?.play());
+        item.addEventListener("mouseenter", handleEnter);
+        item.addEventListener("mouseleave", handleLeave);
+        itemCleanups.push(() => {
+            item.removeEventListener("mouseenter", handleEnter);
+            item.removeEventListener("mouseleave", handleLeave);
+        });
     });
 });
 
 onUnmounted(() => {
+    itemCleanups.forEach((fn) => fn());
+    itemCleanups.length = 0;
     loop?.kill();
     cleanupFn?.();
 });

@@ -10,8 +10,9 @@ export default defineEventHandler(async (event) => {
 
     try {
         const comments = await $fetch(
-            `https://dev.to/api/comments?a_id=${articleId}`
+            `https://dev.to/api/comments?a_id=${encodeURIComponent(articleId)}`
         );
+        setHeader(event, "Cache-Control", "public, max-age=180, s-maxage=300, stale-while-revalidate=1800");
         return comments;
     } catch (error: any) {
         const statusCode = error?.statusCode || error?.response?.status || 500;

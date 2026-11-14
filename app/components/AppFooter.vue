@@ -46,7 +46,7 @@
 							class="text-green-200 hover:scale-150 transition-all duration-300"
 							aria-label="twitter/x"
 						>
-							<img :src="X" alt-="" class="w-5 h-5" />
+							<img :src="X" alt="" class="w-5 h-5" />
 						</a>
 						<a
 							href="https://dev.to/technvernacular"
@@ -55,7 +55,7 @@
 							class="text-green-200 hover:scale-150 transition-all duration-300"
 							aria-label="devdotcom"
 						>
-							<img :src="dev" alt-="" class="w-5 h-5" />
+							<img :src="dev" alt="" class="w-5 h-5" />
 						</a>
 					</div>
 				</div>
@@ -120,7 +120,7 @@
 					</div>
 				</div>
 
-                <div id="contact" class="space-y-2">
+                <div id="resources" class="space-y-2">
                     <div>
                         <h4 class="font-semibold mb-2 text-green-100">
                             Book a meeting
@@ -129,6 +129,7 @@
                             <a
                                 href="https://cal.com/muizz"
                                 target="_blank"
+                                rel="noreferrer noopener"
                                 class="flex items-center"
                                 aria-label="Book a meeting"
                             >
@@ -146,6 +147,7 @@
                             <a
                                 href="https://drive.google.com/file/d/11QYW6ImEty1pzZcjOPs9fQ-aJAGblowK/view?usp=sharing"
                                 target="_blank"
+                                rel="noreferrer noopener"
                                 class="flex items-center"
                                 aria-label="Download resume"
                             >
@@ -197,7 +199,7 @@
 							rel="noreferrer noopener"
 							class="flex items-center gap-1 ml-1"
 						>
-							<img :src="nuxt" alt-="" class="w-5 h-5" /> 
+							<img :src="nuxt" alt="Nuxt" class="w-5 h-5" /> 
 							Nuxt
 						</a>
 					</span>

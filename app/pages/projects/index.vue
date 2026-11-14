@@ -66,8 +66,8 @@
                             top: `calc(12vh + ${index * 36}px)`,
                             zIndex: index + 1,
                             marginBottom: index < filteredProjects.length - 1 ? '22vh' : '15vh',
-                            transformOrigin: 'top center', // Explicit for clarity
-                            transform: 'translateZ(0) scale(1)', // GPU acceleration
+                            transformOrigin: 'top center',
+                            transform: 'translateZ(0) scale(1)',
                             backfaceVisibility: 'hidden',
                             perspective: '1000px',
                         }"
@@ -79,25 +79,6 @@
                         />
                     </div>
                 </div>
-                <!-- <div class="flex flex-col max-w-6xl mx-auto" v-if="filteredProjects.length > 0">
-                    <div
-                        v-for="(project, index) in filteredProjects"
-                        :key="project.slug"
-                        class="project-card-wrapper w-full origin-top"
-                        :style="{
-                            position: 'sticky',
-                            top: `calc(12vh + ${index * 36}px)`,
-                            zIndex: index + 1,
-                            marginBottom: index < filteredProjects.length - 1 ? '22vh' : '15vh'
-                        }"
-                    >
-                        <ProjectCard
-                            :project="project"
-                            :reverse="index % 2 === 1"
-                            class="project-card"
-                        />
-                    </div>
-                </div> -->
 
                 <div
                     v-if="filteredProjects.length === 0"
@@ -116,21 +97,20 @@
     import gsap from "gsap";
     import { ScrollTrigger } from "gsap/ScrollTrigger";
     import DotField from "~/components/DotField.vue";
+    import projectsData from "@@/public/projects.json";
 
     const activeFilter = ref("All");
 
-    import projectsData from '@@/public/projects.json';
-
     const projects = Object.entries(projectsData).map(([slug, data]) => ({
         ...data,
-        slug
+        slug,
     }));
 
     const categories = computed(() => {
         const cats = new Set<string>();
-        projects.forEach(p => {
+        projects.forEach((p) => {
             if (Array.isArray(p.category)) {
-                p.category.forEach(c => cats.add(c));
+                p.category.forEach((c) => cats.add(c));
             } else if (p.category) {
                 cats.add(p.category);
             }
@@ -151,35 +131,32 @@
     });
 
     let ctx: ReturnType<typeof gsap.context> | null = null;
-    let refreshScheduled = false;
 
     const killAnimations = () => {
         if (ctx) {
             ctx.revert();
             ctx = null;
         }
-        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
 
     const initAnimations = () => {
         if (!import.meta.client) return;
-        
+
         killAnimations();
-        
+
         ctx = gsap.context(() => {
             const wrappers = gsap.utils.toArray<HTMLElement>(".project-card-wrapper");
-            
+
             if (wrappers.length === 0) return;
-            
+
             const scaleStep = 0.025;
             const minScale = 0.8;
-            
-            // Pre-calculate all scale values to avoid recalculation in timeline
+
             const scaleMap = new Map<number, Array<{ start: number; end: number }>>();
-            
+
             for (let j = 0; j < wrappers.length; j++) {
                 if (j === 0) continue;
-                
+
                 const scales: Array<{ start: number; end: number }> = [];
                 for (let i = 0; i < j; i++) {
                     const startScale = Math.max(minScale, 1 - (j - 1 - i) * scaleStep);
@@ -188,160 +165,77 @@
                 }
                 scaleMap.set(j, scales);
             }
-            
-            // Create animations more efficiently
+
             wrappers.forEach((wrapper, j) => {
                 if (j === 0) return;
-                
+
                 const scales = scaleMap.get(j);
                 if (!scales) return;
-                
-                // Create a single timeline per card instead of updating multiple
+
                 const tl = gsap.timeline({
                     scrollTrigger: {
                         trigger: wrapper,
                         start: "top 85%",
                         end: `top calc(8vh + ${j * 36}px)`,
-                        scrub: 1, // Changed from true for better performance
+                        scrub: 1,
                         markers: false,
-                    }
+                    },
                 });
-                
-                // Add all animations at once
+
                 scales.forEach((scale, i) => {
                     const targetWrapper = wrappers[i];
                     if (targetWrapper) {
                         tl.to(
                             targetWrapper,
-                            // { scale: scale.start },
                             { scale: scale.end, ease: "none" },
-                            0 // All start at the same time
+                            0
                         );
                     }
                 });
             });
-            
-            // Refresh ScrollTrigger after all animations are created
+
             ScrollTrigger.refresh();
         });
     };
 
-    // Debounce animation recreation
     const debouncedInitAnimations = useDebounceFn(() => {
         initAnimations();
     }, 300);
 
-    // onMounted(() => {
-    //     if (import.meta.client) {
-    //         gsap.registerPlugin(ScrollTrigger);
-            
-    //         // Add will-change to cards for GPU acceleration
-    //         const wrappers = document.querySelectorAll(".project-card-wrapper");
-    //         wrappers.forEach(wrapper => {
-    //             (wrapper as HTMLElement).style.willChange = "transform";
-    //         });
-            
-    //         initAnimations();
-    //     }
-    // });
-
     onMounted(() => {
         if (import.meta.client) {
             gsap.registerPlugin(ScrollTrigger);
-            
+
             const wrappers = document.querySelectorAll(".project-card-wrapper");
-            wrappers.forEach(wrapper => {
+            wrappers.forEach((wrapper) => {
                 (wrapper as HTMLElement).style.willChange = "transform";
             });
-            
+
             nextTick(() => {
                 setTimeout(() => {
                     initAnimations();
-                }, 50); // Small delay for layout calculation
+                }, 50);
             });
         }
     });
 
-    watch(filteredProjects, () => {
-        debouncedInitAnimations();
-    }, { immediate: false });
+    watch(
+        filteredProjects,
+        () => {
+            debouncedInitAnimations();
+        },
+        { immediate: false }
+    );
 
     onUnmounted(() => {
         killAnimations();
-        
-        // Clean up will-change
+
         const wrappers = document.querySelectorAll(".project-card-wrapper");
-        wrappers.forEach(wrapper => {
+        wrappers.forEach((wrapper) => {
             (wrapper as HTMLElement).style.willChange = "auto";
         });
     });
 
-    // let ctx: ReturnType<typeof gsap.context> | null = null;
-
-    // const killAnimations = () => {
-    //     if (ctx) {
-    //         ctx.revert();
-    //         ctx = null;
-    //     }
-    // };
-
-    // const initAnimations = () => {
-    //     if (!import.meta.client) return;
-    //     killAnimations();
-
-    //     ctx = gsap.context(() => {
-    //         const wrappers = gsap.utils.toArray<HTMLElement>(".project-card-wrapper");
-    //         const scaleStep = 0.025;
-    //         const minScale = 0.8;
-
-    //         wrappers.forEach((wrapper, j) => {
-    //             // For each card j starting from index 1, when it scrolls in,
-    //             // we scale down all previous cards i < j by one step.
-    //             if (j > 0) {
-    //                 const tl = gsap.timeline({
-    //                     scrollTrigger: {
-    //                         trigger: wrapper,
-    //                         start: "top 85%",
-    //                         end: () => `top calc(8vh + ${j * 36}px)`,
-    //                         scrub: true,
-    //                     }
-    //                 });
-
-    //                 for (let i = 0; i < j; i++) {
-    //                     const startScale = Math.max(minScale, 1 - (j - 1 - i) * scaleStep);
-    //                     const endScale = Math.max(minScale, 1 - (j - i) * scaleStep);
-    //                     const targetWrapper = wrappers[i];
-
-    //                     if (targetWrapper) {
-    //                         tl.fromTo(targetWrapper,
-    //                             { scale: startScale },
-    //                             { scale: endScale, ease: "none" },
-    //                             0
-    //                         );
-    //                     }
-    //                 }
-    //             }
-    //         });
-    //     });
-    // };
-
-    // onMounted(() => {
-    //     if (import.meta.client) {
-    //         gsap.registerPlugin(ScrollTrigger);
-    //         initAnimations();
-    //     }
-    // });
-
-    // watch(filteredProjects, async () => {
-    //     killAnimations();
-    //     await nextTick();
-    //     initAnimations();
-    // });
-
-    onUnmounted(() => {
-        killAnimations();
-    });
-
     useHead({
         title: "Projects - Abdulmuiz Farayola",
         meta: [
@@ -354,139 +248,6 @@
     });
 
     defineExpose({
-        activeFilter
+        activeFilter,
     });
 </script>
-
-<!-- <script setup lang="ts">
-    import gsap from 'gsap';
-    import { ScrollTrigger } from "gsap/ScrollTrigger";
-    import DotField from "~/components/DotField.vue";
-
-    // const projectsContainer = ref(null);
-
-    const activeFilter = ref("All");
-
-    import projectsData from '@@/public/projects.json';
-
-    const projects = Object.entries(projectsData).map(([slug, data]) => ({
-        ...data,
-        slug
-    }));
-
-    const categories = computed(() => {
-        const cats = new Set<string>();
-        projects.forEach(p => {
-            if (Array.isArray(p.category)) {
-                p.category.forEach(c => cats.add(c));
-            } else if (p.category) {
-                cats.add(p.category);
-            }
-        });
-        return ["All", ...Array.from(cats)];
-    });
-
-    const filteredProjects = computed(() => {
-        if (activeFilter.value === "All") {
-            return projects;
-        }
-        return projects.filter((project) => {
-            if (Array.isArray(project.category)) {
-                return project.category.includes(activeFilter.value);
-            }
-            return project.category === activeFilter.value;
-        });
-    });
-
-    let scrollTriggerInstances: globalThis.ScrollTrigger[] = [];
-
-    const killAnimations = () => {
-        // Kill existing ScrollTriggers to remove pins and spacers
-        scrollTriggerInstances.forEach(st => st.kill(true));
-        scrollTriggerInstances = [];
-
-        // Clear inline transforms left behind by GSAP tweens
-        const cards = gsap.utils.toArray(".card");
-        if (cards.length) {
-            gsap.killTweensOf(cards);
-            // Only clear what GSAP changed to preserve Vue's animation-delay
-            gsap.set(cards, { clearProps: "scale,rotationX,transformOrigin,transform" });
-        }
-    };
-
-    const initAnimations = () => {
-        if (!import.meta.client) return;
-
-        killAnimations();
-
-        const cardsSection = document.getElementById("card");
-        const cardsWrappers = gsap.utils.toArray(".card-wrapper");
-        const cards = gsap.utils.toArray(".card");
-    
-        cardsWrappers.forEach((wrapper, i) => {
-            const card = cards[i];
-            let scale = 1,
-                rotation = 0;
-            if (i !== cards.length - 1) {
-                scale = 0.9 + 0.025 * i;
-                rotation = -10;
-            }
-            if (cardsSection) {
-                gsap.to(card as gsap.TweenTarget, {
-                    scale: scale,
-                    rotationX: rotation,
-                    transformOrigin: "top center",
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: wrapper as gsap.DOMTarget,
-                        start: "top " + (60 + 10 * i),
-                        end: "bottom 550",
-                        endTrigger: ".wrapper",
-                        scrub: true,
-                        pin: wrapper as gsap.DOMTarget,
-                        pinSpacing: false,
-                        id: (i + 1).toString()
-                    }
-                });
-                
-                // Store the ScrollTrigger instance to kill it later
-                const st = ScrollTrigger.getById((i + 1).toString());
-                if (st) scrollTriggerInstances.push(st);
-            }
-        });
-        
-        ScrollTrigger.refresh();
-    };
-
-    onMounted(() => {
-        if(import.meta.client) {
-            gsap.registerPlugin(ScrollTrigger);
-            initAnimations();
-        }
-    });
-
-    watch(filteredProjects, async () => {
-        killAnimations(); // Clean up BEFORE Vue updates DOM
-        await nextTick(); // Wait for Vue to render new items
-        initAnimations(); // Re-initialize with new items
-    });
-
-    onUnmounted(() => {
-        killAnimations();
-    });
-
-    useHead({
-        title: "Projects - Abdulmuiz Farayola",
-        meta: [
-            {
-                name: "description",
-                content:
-                    "Browse my portfolio of software development projects including web applications, mobile apps, and APIs projects.",
-            },
-        ],
-    });
-
-    defineExpose({
-        activeFilter
-    });
-</script> -->

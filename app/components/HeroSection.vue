@@ -290,131 +290,134 @@
 
     // ---- State ----
     const headerIntervals: number[] = [];
+    let heroCtx: gsap.Context | null = null;
 
     // ---- Mount ----
     onMounted(async () => {
         await nextTick();
         if (typeof window === "undefined") return;
 
-        // 1) Horizontal loop + ScrollTrigger
-        const scrollingText = gsap.utils.toArray<HTMLElement>(".rail h2");
-        if (scrollingText.length > 0) {
-            const htl = horizontalLoop(scrollingText, { repeat: -1, speed: 1.2 });
+        heroCtx = gsap.context(() => {
+            // 1) Horizontal loop + ScrollTrigger
+            const scrollingText = gsap.utils.toArray<HTMLElement>(".rail h2");
+            if (scrollingText.length > 0) {
+                const htl = horizontalLoop(scrollingText, { repeat: -1, speed: 1.2 });
 
-            let speedTween: gsap.core.Timeline | null = null;
+                let speedTween: gsap.core.Timeline | null = null;
 
-            ScrollTrigger.create({
-                trigger: ".scrolling-text",
-                start: "top bottom",
-                end: "bottom top",
-                markers: false,
-                onUpdate: (self) => {
-                    if (speedTween) speedTween.kill();
+                ScrollTrigger.create({
+                    trigger: ".scrolling-text",
+                    start: "top bottom",
+                    end: "bottom top",
+                    markers: false,
+                    onUpdate: (self) => {
+                        if (speedTween) speedTween.kill();
 
-                    speedTween = gsap
-                        .timeline()
-                        .to(htl, { timeScale: 3 * self.direction, duration: 1.5 })
-                        .to(
-                            htl,
-                            { timeScale: 1 * self.direction, duration: 2.5 },
-                            "+=0.5"
-                        );
-                },
-            });
-        }
-
-        // 2) Rotating headers with word cycling
-        const rotatingHeaders =
-            document.querySelectorAll<RotatingHeader>(".rotatingHeader");
-
-        // Define word lists for each header
-        const wordLists = [
-            ["Research", "Analyze", "Discover", "Explore"],
-            ["Build", "Create", "Design", "Develop"],
-            ["Test", "Debug", "Verify", "Validate"],
-            ["Deliver", "Deploy", "Ship", "Launch"],
-            ["Maintain", "Support", "Update", "Improve"],
-        ];
-
-        rotatingHeaders.forEach((header, idx) => {
-            const originalH3 = header.querySelector("h3");
-            if (!originalH3) {
-                console.warn(`rotatingHeader[${idx}] has no <h3>`);
-                return;
+                        speedTween = gsap
+                            .timeline()
+                            .to(htl, { timeScale: 3 * self.direction, duration: 1.5 })
+                            .to(
+                                htl,
+                                { timeScale: 1 * self.direction, duration: 2.5 },
+                                "+=0.5"
+                            );
+                    },
+                });
             }
 
-            // Setup container styles
-            gsap.set(header, {
-                position: "relative",
-                display: "inline-block",
-                overflow: "hidden",
-            });
+            // 2) Rotating headers with word cycling
+            const rotatingHeaders =
+                document.querySelectorAll<RotatingHeader>(".rotatingHeader");
 
-            // Store word list
-            const currentText = originalH3.textContent ?? "Word";
-            header.words = wordLists[idx] || [currentText];
-            header.currentIndex = 0;
+            // Define word lists for each header
+            const wordLists = [
+                ["Research", "Analyze", "Discover", "Explore"],
+                ["Build", "Create", "Design", "Develop"],
+                ["Test", "Debug", "Verify", "Validate"],
+                ["Deliver", "Deploy", "Ship", "Launch"],
+                ["Maintain", "Support", "Update", "Improve"],
+            ];
 
-            // Create clone element
-            const cloneH3 = originalH3.cloneNode(true) as HTMLElement;
-            header.appendChild(cloneH3);
-            gsap.set(cloneH3, {
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-            });
+            rotatingHeaders.forEach((header, idx) => {
+                const originalH3 = header.querySelector("h3");
+                if (!originalH3) {
+                    console.warn(`rotatingHeader[${idx}] has no <h3>`);
+                    return;
+                }
 
-            // Initialize SplitText
-            header.originalSplit = new SplitText(originalH3, { type: "chars" });
-            header.cloneSplit = new SplitText(cloneH3, { type: "chars" });
+                // Setup container styles
+                gsap.set(header, {
+                    position: "relative",
+                    display: "inline-block",
+                    overflow: "hidden",
+                });
 
-            // Set initial states
-            gsap.set(header.cloneSplit.chars as any, {
-                rotationX: -90,
-                opacity: 0,
-            });
+                // Store word list
+                const currentText = originalH3.textContent ?? "Word";
+                header.words = wordLists[idx] || [currentText];
+                header.currentIndex = 0;
 
-            // --- Define the rotation behavior ---
-            const rotate = () => {
-                const nextIndex = (header.currentIndex! + 1) % header.words!.length;
-                const nextWord = (header.words![nextIndex] ?? "") + " .";
+                // Create clone element
+                const cloneH3 = originalH3.cloneNode(true) as HTMLElement;
+                header.appendChild(cloneH3);
+                gsap.set(cloneH3, {
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                });
 
-                // Recreate splits for clone (revert first!)
-                header.cloneSplit?.revert();
-                cloneH3.textContent = nextWord;
+                // Initialize SplitText
+                header.originalSplit = new SplitText(originalH3, { type: "chars" });
                 header.cloneSplit = new SplitText(cloneH3, { type: "chars" });
+
+                // Set initial states
                 gsap.set(header.cloneSplit.chars as any, {
                     rotationX: -90,
                     opacity: 0,
                 });
 
-                // Build a fresh timeline each time (fixes the "runs once" bug)
-                const tl = createHeaderAnimation(header, originalH3, cloneH3);
-                tl.play();
+                // --- Define the rotation behavior ---
+                const rotate = () => {
+                    const nextIndex = (header.currentIndex! + 1) % header.words!.length;
+                    const nextWord = (header.words![nextIndex] ?? "") + " .";
 
-                // After animation completes, swap texts
-                tl.eventCallback("onComplete", () => {
-                    header.originalSplit?.revert();
-                    originalH3.textContent = nextWord;
-                    header.originalSplit = new SplitText(originalH3, {
-                        type: "chars",
-                    });
-                    gsap.set(header.originalSplit.chars as any, {
-                        rotationX: 0,
-                        opacity: 1,
+                    // Recreate splits for clone (revert first!)
+                    header.cloneSplit?.revert();
+                    cloneH3.textContent = nextWord;
+                    header.cloneSplit = new SplitText(cloneH3, { type: "chars" });
+                    gsap.set(header.cloneSplit.chars as any, {
+                        rotationX: -90,
+                        opacity: 0,
                     });
 
-                    // Update current index
-                    header.currentIndex = nextIndex;
+                    // Build a fresh timeline each time (fixes the "runs once" bug)
+                    const tl = createHeaderAnimation(header, originalH3, cloneH3);
+                    tl.play();
+
+                    // After animation completes, swap texts
+                    tl.eventCallback("onComplete", () => {
+                        header.originalSplit?.revert();
+                        originalH3.textContent = nextWord;
+                        header.originalSplit = new SplitText(originalH3, {
+                            type: "chars",
+                        });
+                        gsap.set(header.originalSplit.chars as any, {
+                            rotationX: 0,
+                            opacity: 1,
+                        });
+
+                        // Update current index
+                        header.currentIndex = nextIndex;
+                    });
+                };
+
+                // Start cycling
+                gsap.delayedCall(1.5, () => {
+                    rotate();
+                    const id = window.setInterval(rotate, 3000);
+                    headerIntervals.push(id);
                 });
-            };
-
-            // Start cycling
-            gsap.delayedCall(1.5, () => {
-                rotate();
-                const id = window.setInterval(rotate, 3000);
-                headerIntervals.push(id);
             });
         });
     });
@@ -423,7 +426,9 @@
     onBeforeUnmount(() => {
         headerIntervals.forEach(clearInterval);
         headerIntervals.length = 0;
-        ScrollTrigger.getAll().forEach((t) => t.kill());
-        gsap.globalTimeline.clear();
+        if (heroCtx) {
+            heroCtx.revert();
+            heroCtx = null;
+        }
     });
 </script>

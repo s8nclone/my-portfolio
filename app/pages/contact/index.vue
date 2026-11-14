@@ -149,7 +149,7 @@
                             >
                                 <span v-if="loading" class="animate-spin mr-2">
                                     <Loader2 class="w-5 h-5" />
-                                    <span className="sr-only">Loading</span>
+                                    <span class="sr-only">Loading</span>
                                 </span>
                                 <span v-else class="flex items-center">
                                     Send Message
@@ -224,7 +224,7 @@
     const nameId = `${baseId}-name`;
     const emailId = `${baseId}-email`;
     const subjectId = `${baseId}-subject`;
-    const messageId = `{baseId}-message`;
+    const messageId = `${baseId}-message`;
 
     const loading = ref(false);
     const submitted = ref(false);

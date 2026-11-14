@@ -16,11 +16,13 @@ export interface DevToArticle {
     published_at: string;
     url: string;
     cover_image: string | null;
+    social_image?: string | null;
     reading_time_minutes: number;
     public_reactions_count: number;
     comments_count: number;
     slug: string;
     tag_list: string[];
+    user?: DevToUser;
 }
 
 export interface DevToArticleDetail extends DevToArticle {

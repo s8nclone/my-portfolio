@@ -54,17 +54,16 @@
                         </div>
                     </div>
 
-                    <button class="btn-primary mt-6">
-                        <a
-                            href="https://drive.google.com/file/d/11QYW6ImEty1pzZcjOPs9fQ-aJAGblowK/view?usp=sharing" 
-                            target="_blank"
-                            aria-label="download cv"
-                            class="flex items-center gap-2"
-                        >
-                            <Download class="w-5 h-5" />
-                            Download CV
-                        </a>
-                    </button>
+                    <a
+                        href="https://drive.google.com/file/d/11QYW6ImEty1pzZcjOPs9fQ-aJAGblowK/view?usp=sharing"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="download cv"
+                        class="btn-primary mt-6 inline-flex items-center gap-2"
+                    >
+                        <Download class="w-5 h-5" />
+                        Download CV
+                    </a>
                 </div>
 
                 <div class="animate-fade-in-right">

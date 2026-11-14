@@ -52,7 +52,7 @@ export default defineEventHandler(async (event) => {
 
 	const trimmedName = escapeHtml(name.trim());
 	const trimmedEmail = escapeHtml(email.trim());
-    const trimmedSubject = escapeHtml(subject.trim());
+	const trimmedSubject = typeof subject === "string" ? escapeHtml(subject.trim()) : "";
 	const trimmedMessage = escapeHtml(message.trim());
 
 
@@ -81,7 +81,7 @@ export default defineEventHandler(async (event) => {
 				from: `"Portfolio Contact" <${user}>`,
                 replyTo: trimmedEmail,
 				to: receiver,
-				subject: `${trimmedSubject ?? `Portfolio Message from ${trimmedName}`}`,
+				subject: trimmedSubject || `Portfolio Message from ${trimmedName}`,
 				text: `Name: ${trimmedName}\nEmail: ${trimmedEmail}\n\nMessage:\n${trimmedMessage}`,
 				html: `
                     <div style="font-family: sans-serif; padding: 20px; color: #333; max-width: 600px; border: 1px solid #e2e8f0; border-radius: 12px;">
@@ -130,11 +130,11 @@ export default defineEventHandler(async (event) => {
 		);
 		console.log(
 			"\x1b[33m%s\x1b[0m",
-			"Tip: To send real emails, define SMTP_HOST, SMTP_PORT,",
+			"Tip: To send real emails, define SMTP_USER, GOOGLE_CLIENT_ID,",
 		);
 		console.log(
 			"\x1b[33m%s\x1b[0m",
-			"   SMTP_USER, and SMTP_PASS in your environment.\n",
+			"   GOOGLE_CLIENT_SECRET, and GOOGLE_OAUTH_REFRESH_TOKEN in your environment.\n",
 		);
 
 		return {

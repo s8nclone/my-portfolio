@@ -67,6 +67,11 @@
 						<button
 							@click="toggleDarkMode"
 							class="p-2 text-green-200 hover:text-white transition-colors duration-300 rounded-lg hover:bg-green-700/50"
+							:aria-label="
+								isDark
+									? 'Switch to light mode'
+									: 'Switch to dark mode'
+							"
 							:title="
 								isDark
 									? 'Switch to light mode'
@@ -88,6 +93,11 @@
 						<button
 							@click="toggleDarkMode"
 							class="p-2 text-green-200 hover:text-white transition-colors duration-300"
+							:aria-label="
+								isDark
+									? 'Switch to light mode'
+									: 'Switch to dark mode'
+							"
 							:title="
 								isDark
 									? 'Switch to light mode'

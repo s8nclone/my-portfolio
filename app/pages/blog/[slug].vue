@@ -1,10 +1,11 @@
 <template>
     <div class="min-h-screen">
         <!-- Reading Progress Bar -->
-        <!-- <div
-            class="fixed top-0 left-0 h-1 bg-green-500 z-50 transition-all duration-150"
+        <div
+            v-if="article && !loading"
+            class="fixed top-0 left-0 h-1 bg-emerald-500 z-[60] transition-all duration-150"
             :style="{ width: `${readingProgress}%` }"
-        /> -->
+        />
 
         <!-- Loading State -->
         <div v-if="loading" class="pt-28 container-width max-w-4xl mx-auto px-4 pb-20 animate-pulse">
@@ -79,7 +80,7 @@
                     </div>
 
                     <!-- Tags -->
-                    <div v-if="article.tag_list && article.tag_list.length > 0" class="flex flex-wrap gap-2 mb-4 animate-fade-in-up">
+                    <div v-if="tags.length > 0" class="flex flex-wrap gap-2 mb-4 animate-fade-in-up">
                         <span
                             v-for="tag in tags"
                             :key="tag"
@@ -257,6 +258,24 @@
                                     </div>
                                 </div>
 
+                                <!-- Error Comments State -->
+                                <div
+                                    v-else-if="commentsError"
+                                    class="text-center py-10 px-6 rounded-2xl bg-white dark:bg-gray-800 border border-red-100 dark:border-red-950/30"
+                                >
+                                    <AlertCircle class="w-8 h-8 mx-auto text-red-400 mb-2" />
+                                    <p class="text-xs text-green-700 dark:text-green-300 mb-4">
+                                        {{ commentsError }}
+                                    </p>
+                                    <button
+                                        type="button"
+                                        class="btn-secondary text-xs inline-flex items-center gap-1.5 !py-2 !px-4"
+                                        @click="refreshComments"
+                                    >
+                                        <RefreshCw class="w-3.5 h-3.5" /> Retry loading comments
+                                    </button>
+                                </div>
+
                                 <!-- Empty Comments State -->
                                 <div
                                     v-else-if="comments.length === 0"
@@ -432,15 +451,27 @@
 
     const { article, loading, error, refresh } = useDevToArticle(slug);
     const articleId = computed(() => article.value?.id);
-    const { comments, loading: commentsLoading } = useDevToComments(articleId);
+    const { comments, loading: commentsLoading, error: commentsError, refresh: refreshComments } = useDevToComments(articleId);
 
     const articleContentRef = ref<HTMLElement | null>(null);
     const tableOfContents = ref<TableOfContentItem[]>([]);
     const activeHeadingId = ref<string>("");
     const isMobileTocOpen = ref<boolean>(false);
     const copied = ref<boolean>(false);
+    const readingProgress = ref<number>(0);
 
     let observer: IntersectionObserver | null = null;
+
+    const updateReadingProgress = () => {
+        if (typeof window === "undefined") return;
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (docHeight <= 0) {
+            readingProgress.value = 0;
+            return;
+        }
+        readingProgress.value = Math.min(100, Math.max(0, (scrollTop / docHeight) * 100));
+    };
 
     const formatDate = (isoString?: string): string => {
         if (!isoString) return "";
@@ -461,18 +492,20 @@
             .replace(/^-+|-+$/g, "");
     };
 
-    const tags = computed(() => article.value?.tags ?? []);
-    
-    // const tags = computed(() => {
-    //     if (!article.value) return [];
-
-    //     return article.value.tags || [];
-    //     // if (typeof tagList === "string") {
-    //     //     // If it's a string, split it
-    //     //     return tagList.split(',').map(tag => tag.trim());
-    //     // }
-    //     // return Array.isArray(tagList) ? tagList : [];
-    // });
+    const tags = computed<string[]>(() => {
+        if (!article.value) return [];
+        if (Array.isArray(article.value.tags) && article.value.tags.length > 0) {
+            return article.value.tags;
+        }
+        const rawTagList = article.value.tag_list as unknown;
+        if (Array.isArray(rawTagList)) {
+            return rawTagList;
+        }
+        if (typeof rawTagList === "string" && rawTagList.trim()) {
+            return rawTagList.split(",").map((t) => t.trim()).filter(Boolean);
+        }
+        return [];
+    });
 
     // Extract headings from rendered article HTML and initialize scrollspy
     const buildTableOfContents = () => {
@@ -583,12 +616,15 @@
     );
 
     onMounted(() => {
+        window.addEventListener("scroll", updateReadingProgress, { passive: true });
+        updateReadingProgress();
         nextTick(() => {
             buildTableOfContents();
         });
     });
 
     onUnmounted(() => {
+        window.removeEventListener("scroll", updateReadingProgress);
         if (observer) {
             observer.disconnect();
         }

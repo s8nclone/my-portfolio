@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { mountSuspended, mockNuxtImport } from "@nuxt/test-utils/runtime";
 import ProjectSlug from "../../app/pages/projects/[slug].vue";
-import projectsData from "../../app/public/projects.json";
+import projectsData from "../../public/projects.json";
 
 // We need a mutable object to change route params between tests
 const mockRouteParams = { slug: Object.keys(projectsData)[0] };

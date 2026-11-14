@@ -63,7 +63,7 @@ const saveToCache = <T>(key: string, data: T) => {
 // Composable to fetch all articles (for the stand-alone blog page)
 export const useDevToArticles = (username: string) => {
 	const articles = ref<DevToArticle[]>([]);
-	const loading = ref(false);
+	const loading = ref(true);
 	const error = ref<string | null>(null);
 
 	const fetchArticles = async (force = false) => {
@@ -74,6 +74,7 @@ export const useDevToArticles = (username: string) => {
 			const cached = getFromCache<DevToArticle[]>(CACHE_KEY_ALL);
 			if (cached) {
 				articles.value = cached;
+				loading.value = false;
 				return;
 			}
 		}
@@ -113,7 +114,7 @@ export const useDevToArticles = (username: string) => {
 // Fetch only recent articles
 export const useRecentDevToArticles = (username: string, limit = 3) => {
 	const articles = ref<DevToArticle[]>([]);
-	const loading = ref(false);
+	const loading = ref(true);
 	const error = ref<string | null>(null);
 
 	const fetchRecentArticles = async (force = false) => {
@@ -124,6 +125,7 @@ export const useRecentDevToArticles = (username: string, limit = 3) => {
 			const cached = getFromCache<DevToArticle[]>(cacheKey);
 			if (cached) {
 				articles.value = cached;
+				loading.value = false;
 				return;
 			}
 		}

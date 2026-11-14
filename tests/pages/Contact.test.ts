@@ -1,6 +1,6 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
-import ContactPage from "../../app/pages/contact.vue";
+import ContactPage from "../../app/pages/contact/index.vue";
 
 describe("Contact Page", () => {
 	it("renders the page title and inviting subheader", async () => {
@@ -15,9 +15,9 @@ describe("Contact Page", () => {
 	it("renders the contact form with all required fields", async () => {
 		const wrapper = await mountSuspended(ContactPage);
 
-		const nameInput = wrapper.find('input[id="name"]');
-		const emailInput = wrapper.find('input[id="email"]');
-		const messageInput = wrapper.find('textarea[id="message"]');
+		const nameInput = wrapper.find('input[id$="-name"]');
+		const emailInput = wrapper.find('input[id$="-email"]');
+		const messageInput = wrapper.find('textarea[id$="-message"]');
 		const submitButton = wrapper.find('button[type="submit"]');
 
 		expect(nameInput.exists()).toBe(true);
@@ -30,9 +30,9 @@ describe("Contact Page", () => {
 	it("initializes with default empty values", async () => {
 		const wrapper = await mountSuspended(ContactPage);
 
-		const nameInput = wrapper.find('input[id="name"]').element as HTMLInputElement;
-		const emailInput = wrapper.find('input[id="email"]').element as HTMLInputElement;
-		const messageInput = wrapper.find('textarea[id="message"]').element as HTMLTextAreaElement;
+		const nameInput = wrapper.find('input[id$="-name"]').element as HTMLInputElement;
+		const emailInput = wrapper.find('input[id$="-email"]').element as HTMLInputElement;
+		const messageInput = wrapper.find('textarea[id$="-message"]').element as HTMLTextAreaElement;
 
 		expect(nameInput.value).toBe("");
 		expect(emailInput.value).toBe("");

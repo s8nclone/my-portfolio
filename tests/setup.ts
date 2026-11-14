@@ -2,10 +2,13 @@ import { vi } from "vitest";
 
 // Mock GSAP to prevent animations from running and causing issues in tests
 vi.mock("gsap", () => {
+	const tweenMock = () => ({
+		kill: vi.fn(),
+	});
 	const gsapMock = {
-		to: vi.fn(),
-		from: vi.fn(),
-		fromTo: vi.fn(),
+		to: vi.fn(tweenMock),
+		from: vi.fn(tweenMock),
+		fromTo: vi.fn(tweenMock),
 		set: vi.fn(),
 		killTweensOf: vi.fn(),
 		timeline: vi.fn(() => ({
@@ -15,6 +18,7 @@ vi.mock("gsap", () => {
 			set: vi.fn().mockReturnThis(),
 			clear: vi.fn().mockReturnThis(),
 			add: vi.fn().mockReturnThis(),
+			eventCallback: vi.fn().mockReturnThis(),
 			progress: vi.fn().mockReturnThis(),
 			duration: vi.fn(() => 0),
 			time: vi.fn(() => 0),
@@ -68,6 +72,7 @@ vi.mock("gsap", () => {
 			snap: vi.fn(() => vi.fn((v) => v)),
 		},
 		registerPlugin: vi.fn(),
+		delayedCall: vi.fn(),
 		getProperty: vi.fn(() => 0),
 		context: vi.fn((cb) => {
 			if (cb) cb();
@@ -77,6 +82,19 @@ vi.mock("gsap", () => {
 	return {
 		default: gsapMock,
 		gsap: gsapMock,
+	};
+});
+
+vi.mock("gsap/SplitText", () => {
+	class MockSplitText {
+		chars = [];
+		words = [];
+		lines = [];
+		revert = vi.fn();
+	}
+	return {
+		default: MockSplitText,
+		SplitText: MockSplitText,
 	};
 });
 

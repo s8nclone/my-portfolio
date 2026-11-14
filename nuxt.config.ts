@@ -3,7 +3,7 @@ export default defineNuxtConfig({
 	compatibilityDate: "2025-08-05",
 	devtools: { enabled: true },
 	routeRules: {
-		"/api": {
+		"/api/**": {
 			security: {
 				rateLimiter: {
 					tokensPerInterval: 5,

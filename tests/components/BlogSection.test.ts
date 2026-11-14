@@ -1,29 +1,33 @@
-import { describe, it, expect } from "vitest";
-import { mountSuspended, mockNuxtImport } from "@nuxt/test-utils/runtime";
+import { describe, it, expect, vi } from "vitest";
+import { mountSuspended } from "@nuxt/test-utils/runtime";
 import { ref } from "vue";
 import BlogSection from "../../app/components/BlogSection.vue";
 
-const mockPosts = [
+const mockArticles = [
 	{
-		id: "nuxt-scalable-2026",
+		id: 101,
 		title: "Building Scalable Nuxt Applications in 2026",
-		excerpt:
+		description:
 			"Discover best practices and architecture patterns for building high-performance Vue and Nuxt applications at scale.",
-		category: "Frontend",
-		date: "May 20, 2026",
-		readTime: "5 min read",
-		imageUrl: "https://picsum.photos/seed/nuxt/600/400",
+		published_at: "2026-05-20T10:00:00Z",
+		url: "https://dev.to/technvernacular/building-scalable-nuxt-applications-in-2026",
+		cover_image: "https://picsum.photos/seed/nuxt/600/400",
+		reading_time_minutes: 5,
+		public_reactions_count: 12,
+		comments_count: 3,
+		slug: "building-scalable-nuxt-applications-in-2026",
+		tag_list: ["frontend", "nuxt", "vue"],
 	},
 ];
 
-mockNuxtImport("useFetch", () => {
-	return () => ({
-		data: ref(mockPosts),
-		pending: ref(false),
+vi.mock("~/composables/useDevToArticles", () => ({
+	useRecentDevToArticles: () => ({
+		articles: ref(mockArticles),
+		loading: ref(false),
 		error: ref(null),
-		refresh: () => {},
-	});
-});
+		refresh: vi.fn(),
+	}),
+}));
 
 describe("BlogSection", () => {
 	it("renders heading and descriptive text", async () => {
@@ -44,7 +48,7 @@ describe("BlogSection", () => {
 		expect(wrapper.text()).toContain(
 			"Discover best practices and architecture patterns",
 		);
-		expect(wrapper.text()).toContain("Frontend");
+		expect(wrapper.text()).toContain("frontend");
 		expect(wrapper.text()).toContain("May 20, 2026");
 		expect(wrapper.text()).toContain("5 min read");
 	});

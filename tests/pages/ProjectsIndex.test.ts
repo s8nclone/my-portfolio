@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import ProjectsIndex from "../../app/pages/projects/index.vue";
-import projectsData from "../../app/public/projects.json";
+import projectsData from "../../public/projects.json";
 
 describe("ProjectsIndex Page", () => {
 	it("renders the page title and description", async () => {
