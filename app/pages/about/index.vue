@@ -16,9 +16,9 @@
 			<div class="container-width relative z-10 w-full px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-10">
 				<!-- Hero Bio -->
 				<div class="animate-fade-in-left max-w-2xl text-left">
-					<span class="inline-block px-3 py-1 mb-4 text-xs font-mono font-bold tracking-wider text-emerald-400 bg-emerald-950/50 border border-emerald-500/30 rounded-full">
+					<!-- <span class="inline-block px-3 py-1 mb-4 text-xs font-mono font-bold tracking-wider text-emerald-400 bg-emerald-950/50 border border-emerald-500/30 rounded-full">
 						ABOUT THE ENGINEER
-					</span>
+					</span> -->
 					<h1 class="text-4xl md:text-8xl font-black mb-4 text-white tracking-tight leading-none">
 						Abdulmuiz <br class="hidden md:inline" />Farayola
 					</h1>

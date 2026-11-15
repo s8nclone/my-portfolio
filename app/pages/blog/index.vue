@@ -13,9 +13,9 @@
                 />
             </div>
             <div class="container-width text-center relative z-10 w-full">
-                <span class="inline-block px-3.5 py-1 mb-4 text-xs font-mono font-bold tracking-wider text-emerald-300 bg-emerald-950/60 border border-emerald-500/30 rounded-full animate-fade-in-down">
+                <!-- <span class="inline-block px-3.5 py-1 mb-4 text-xs font-mono font-bold tracking-wider text-emerald-300 bg-emerald-950/60 border border-emerald-500/30 rounded-full animate-fade-in-down">
                     ENGINEERING BLOG &amp; INSIGHTS
-                </span>
+                </span> -->
                 <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 animate-fade-in-up text-white">
                     My Writing &amp; Insights
                 </h1>
